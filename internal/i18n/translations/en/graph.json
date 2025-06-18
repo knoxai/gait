@@ -1,0 +1,6 @@
+{
+  "data_model": "Data Model",
+  "api_layer": "API Layer",
+  "database": "Database",
+  "http_handlers": "HTTP Handlers"
+} 

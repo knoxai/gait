@@ -1,0 +1,10 @@
+{
+  "commit_trends": "正在加载提交趋势...",
+  "languages": "正在分析语言...",
+  "developer_data": "正在加载开发者数据...",
+  "semantic_patterns": "正在分析语义模式...",
+  "diff": "正在加载差异...",
+  "loading_diff": "正在加载差异...",
+  "analyzing_semantic": "正在分析语义模式...",
+  "chart_data": "正在加载图表数据..."
+} 

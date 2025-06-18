@@ -1,0 +1,76 @@
+2025/06/18 08:08:00 Discovered 1 repositories, defaulting to: gait
+2025/06/18 08:08:00 Initializing ADES service...
+2025/06/18 08:08:00 ADES database migrated successfully: /Users/G9mD/Desktop/gait/.gait/ades.db
+2025/06/18 08:08:00 FTS5 not available, falling back to basic search: no such module: fts5
+2025/06/18 08:08:00 ML Pattern Recognition Engine initialized
+2025/06/18 08:08:00 Code Review Engine initialized
+2025/06/18 08:08:00 IDE Integration Server initialized
+2025/06/18 08:08:00 Collaboration Server initialized
+2025/06/18 08:08:00 Dashboard Server initialized
+2025/06/18 08:08:00 Performance Optimizer initialized
+2025/06/18 08:08:00 Security Hardening initialized
+2025/06/18 08:08:00 Metrics Collector initialized
+2025/06/18 08:08:00 Health Checker initialized
+2025/06/18 08:08:00 Logger initialized
+2025/06/18 08:08:00 Collaboration server started
+2025/06/18 08:08:00 Dashboard server started
+2025/06/18 08:08:00 Batch config: EnableBatchAnalysis=true
+2025/06/18 08:08:00 Batch Analyzer initialized
+2025/06/18 08:08:00 ADES service initialized for repository: /Users/G9mD/Desktop/gait
+2025/06/18 08:08:00 ADES service initialized successfully
+2025/06/18 08:08:00 Initializing MCP server...
+2025/06/18 08:08:00 IDE Integration Server starting on port 8081
+2025/06/18 08:08:00 MCP server initialized successfully
+2025/06/18 08:08:00 IDE Integration Server failed to start: listen tcp :8081: bind: address already in use
+2025/06/18 08:08:00 Dashboard WebSocket hub initialized
+2025/06/18 08:08:00 Webhook handler initialized
+2025/06/18 08:08:00 API documentation portal initialized
+2025/06/18 08:08:00 AI Service disabled - no API key provided
+2025/06/18 08:08:00 AI Service disabled - configure OPENAI_API_KEY to enable
+2025/06/18 08:08:00 Registering MCP server routes...
+2025/06/18 08:08:00 MCP server routes registered successfully
+🌳 GAIT Server Starting (Enhanced + ADES Dashboard)
+Port: 8080
+Repositories: 1 found
+Current: gait
+Performance Features:
+  ✓ Server-side rendering for commits
+  ✓ Batch API endpoints
+  ✓ Concurrent data fetching
+  ✓ MCP server integration
+  ✓ AI context provider
+MCP Endpoints:
+  • WebSocket: ws://localhost:8080/mcp/ws
+  • HTTP: http://localhost:8080/mcp/http
+  • Tools: http://localhost:8080/mcp/tools
+  • Context: http://localhost:8080/api/mcp/context
+ADES Dashboard Features (Sprint 6):
+  ✓ Interactive visualizations
+  ✓ Real-time updates
+  ✓ Advanced analytics
+  ✓ Knowledge graph visualization
+Dashboard Endpoints:
+  • Dashboard: http://localhost:8080/dashboard
+  • WebSocket: ws://localhost:8080/ws/dashboard
+  • API: http://localhost:8080/api/ades/dashboard
+  • Metrics: http://localhost:8080/api/ades/metrics
+ADES Integration Features (Sprint 7):
+  ✓ GitHub webhook integration
+  ✓ Generic webhook support
+  ✓ Secure signature verification
+  ✓ Event-driven analysis
+Webhook Endpoints:
+  • GitHub: http://localhost:8080/webhooks/github
+  • Generic: http://localhost:8080/webhooks/generic
+ADES API Documentation (Sprint 7):
+  ✓ Comprehensive API reference
+  ✓ Interactive Swagger UI
+  ✓ OpenAPI specification
+  ✓ Integration examples
+Documentation Endpoints:
+  • Docs Portal: http://localhost:8080/docs
+  • Swagger UI: http://localhost:8080/docs/swagger
+  • OpenAPI Spec: http://localhost:8080/docs/openapi.json
+Open http://localhost:8080 in your browser
+🚀 Access ADES Dashboard at http://localhost:8080/dashboard
+2025/06/18 08:08:00 listen tcp :8080: bind: address already in use

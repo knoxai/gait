@@ -1,0 +1,678 @@
+/* ADES Dashboard - Redesigned to match Git View Theme */
+
+/* Dashboard Layout */
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    height: 100vh;
+    background: #1e1e1e;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #cccccc;
+}
+
+.dashboard-header {
+    background: #2d2d30;
+    border-bottom: 1px solid #3e3e42;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 48px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.dashboard-title {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.dashboard-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.language-switcher {
+    margin-left: 8px;
+}
+
+.language-switcher select {
+    background: #3e3e42;
+    color: #cccccc;
+    border: 1px solid #5a5a5a;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.language-switcher select:hover {
+    background: #4a4a4a;
+    border-color: #007acc;
+}
+
+.language-switcher select:focus {
+    outline: none;
+    border-color: #007acc;
+    box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
+}
+
+/* Enhanced Cards */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.dashboard-card {
+    background: #252526;
+    border: 1px solid #3e3e42;
+    border-radius: 4px;
+    padding: 16px;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-card:hover {
+    background: #2a2d2e;
+    border-color: #007acc;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #3e3e42;
+}
+
+.card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+
+.card-icon {
+    font-size: 16px;
+    opacity: 0.7;
+    color: #cccccc;
+}
+
+.card-content {
+    color: #cccccc;
+    line-height: 1.6;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Interactive Visualizations */
+.visualization-container {
+    height: 320px;
+    position: relative;
+    margin: 8px 0;
+    background: #1e1e1e;
+    border: 1px solid #3e3e42;
+    border-radius: 4px;
+}
+
+.chart-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.chart-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: #8c8c8c;
+}
+
+.loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #3e3e42;
+    border-top: 2px solid #007acc;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Real-time Updates */
+.real-time-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #4ec9b0;
+}
+
+.real-time-dot {
+    width: 8px;
+    height: 8px;
+    background: #4ec9b0;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Statistics Cards */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 8px 0;
+}
+
+.stat-card {
+    background: #2d2d30;
+    border: 1px solid #3e3e42;
+    color: #cccccc;
+    padding: 12px;
+    border-radius: 4px;
+    text-align: center;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+    background: #3e3e42;
+    border-color: #007acc;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #ffffff;
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.stat-label {
+    font-size: 11px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #8c8c8c;
+}
+
+/* Interactive Elements */
+.interactive-button {
+    background: #0e639c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 2px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 12px;
+}
+
+.interactive-button:hover {
+    background: #1177bb;
+}
+
+.interactive-button:active {
+    background: #094771;
+}
+
+/* Knowledge Graph Visualization */
+.knowledge-graph-container {
+    height: 380px;
+    border: 1px solid #3e3e42;
+    border-radius: 4px;
+    position: relative;
+    background: #1a1a1a;
+}
+
+.graph-controls {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 4px;
+    z-index: 10;
+}
+
+.graph-control-btn {
+    background: #2d2d30;
+    border: 1px solid #3e3e42;
+    border-radius: 3px;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #cccccc;
+    font-size: 11px;
+}
+
+.graph-control-btn:hover {
+    background: #3e3e42;
+    border-color: #007acc;
+}
+
+/* Development Timeline */
+.timeline-container {
+    position: relative;
+    padding: 12px 0;
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.timeline-dot {
+    width: 8px;
+    height: 8px;
+    background: #007acc;
+    border-radius: 50%;
+    margin-right: 12px;
+    margin-top: 6px;
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+}
+
+.timeline-content {
+    flex: 1;
+    background: #2d2d30;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #3e3e42;
+}
+
+.timeline-title {
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 4px;
+    font-size: 13px;
+}
+
+.timeline-description {
+    color: #cccccc;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.timeline-date {
+    color: #8c8c8c;
+    font-size: 11px;
+    margin-top: 4px;
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 16px;
+        padding: 16px;
+    }
+    
+    .dashboard-card {
+        min-height: 350px;
+    }
+    
+    .visualization-container {
+        height: 280px;
+    }
+    
+    .knowledge-graph-container {
+        height: 320px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        padding: 12px;
+        gap: 12px;
+    }
+    
+    .dashboard-header {
+        padding: 8px 12px;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .dashboard-controls {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .dashboard-card {
+        min-height: 300px;
+    }
+    
+    .visualization-container {
+        height: 250px;
+    }
+    
+    .knowledge-graph-container {
+        height: 280px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dashboard-card {
+        padding: 12px;
+    }
+    
+    .stat-value {
+        font-size: 20px;
+    }
+}
+
+/* Animation Classes */
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-16px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.slide-in-right {
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(16px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #3e3e42;
+    transition: .3s;
+    border-radius: 24px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: #cccccc;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: #007acc;
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(20px);
+}
+
+/* Notification */
+.notification {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    color: white;
+    font-weight: 500;
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    font-size: 12px;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification-success {
+    background: #238636;
+    border: 1px solid #2ea043;
+}
+
+.notification-error {
+    background: #da3633;
+    border: 1px solid #f85149;
+}
+
+.notification-info {
+    background: #0078d4;
+    border: 1px solid #1f9cf0;
+}
+
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.insights-panel {
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+.insight-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    margin-bottom: 4px;
+    background: #2d2d30;
+    border-radius: 4px;
+    border-left: 3px solid #007acc;
+    transition: all 0.2s ease;
+}
+
+.insight-item:hover {
+    background: #3e3e42;
+}
+
+.insight-item.high {
+    border-left-color: #da3633;
+}
+
+.insight-item.medium {
+    border-left-color: #d29922;
+}
+
+.insight-item.low {
+    border-left-color: #238636;
+}
+
+.insight-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.insight-content {
+    flex: 1;
+}
+
+.insight-title {
+    font-weight: 600;
+    margin-bottom: 2px;
+    font-size: 13px;
+    color: #ffffff;
+}
+
+.insight-description {
+    font-size: 12px;
+    color: #cccccc;
+    line-height: 1.3;
+}
+
+/* Actions Grid */
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+}
+
+/* Chart styling improvements */
+canvas {
+    border-radius: 4px;
+}
+
+/* Loading text improvements */
+.chart-loading span {
+    font-size: 12px;
+    color: #8c8c8c;
+    font-weight: normal;
+}
+
+/* Graph controls improvements */
+.graph-controls {
+    background: rgba(45, 45, 48, 0.9);
+    border-radius: 4px;
+    padding: 4px;
+    backdrop-filter: blur(4px);
+}
+
+/* Knowledge graph text improvements */
+.knowledge-graph-container text {
+    font-weight: 500;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Error message styling */
+.error-message {
+    color: #da3633;
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+}
+
+/* Card hover improvements */
+.dashboard-card:hover .card-title {
+    color: #ffffff;
+}
+
+.dashboard-card:hover .card-icon {
+    opacity: 1;
+    color: #007acc;
+}
+
+/* Stats card improvements */
+.stat-card {
+    cursor: default;
+}
+
+.stat-card:hover .stat-value {
+    color: #007acc;
+}
+
+/* Timeline improvements */
+.timeline-item:not(:last-child) .timeline-dot::after {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 20px;
+    background: #3e3e42;
+}
+
+/* Interactive button improvements */
+.interactive-button {
+    min-width: 80px;
+    text-align: center;
+}
+
+.interactive-button:focus {
+    outline: 2px solid #007acc;
+    outline-offset: 2px;
+}
+
+/* Scrollbar styling to match git view */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #2d2d30;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #5a5a5a;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6a6a6a;
+} 

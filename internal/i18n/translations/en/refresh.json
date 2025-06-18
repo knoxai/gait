@@ -1,0 +1,7 @@
+{
+  "title": "Refresh uncommitted changes",
+  "uncommitted_changes": "Refresh uncommitted changes",
+  "refreshing_uncommitted": "Refreshing uncommitted changes...",
+  "uncommitted_refreshed": "Uncommitted changes refreshed",
+  "failed_refresh": "Failed to refresh uncommitted changes"
+} 

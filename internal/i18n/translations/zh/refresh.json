@@ -1,0 +1,7 @@
+{
+  "title": "刷新未提交变更",
+  "uncommitted_changes": "刷新未提交变更",
+  "refreshing_uncommitted": "刷新未提交变更中...",
+  "uncommitted_refreshed": "未提交变更已刷新",
+  "failed_refresh": "刷新未提交变更失败"
+} 

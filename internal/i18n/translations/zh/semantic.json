@@ -1,0 +1,8 @@
+{
+  "features": "功能",
+  "fixes": "修复",
+  "refactoring": "重构",
+  "documentation": "文档",
+  "testing": "测试",
+  "performance": "性能"
+} 

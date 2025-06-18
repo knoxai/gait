@@ -1,0 +1,264 @@
+{
+  "name": "ades-vscode-extension",
+  "displayName": "ADES - AI Development Experience System",
+  "description": "Intelligent development insights and AI-powered code analysis directly in VS Code",
+  "version": "1.0.0",
+  "publisher": "ades-team",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning",
+    "Snippets",
+    "Debuggers"
+  ],
+  "keywords": [
+    "ai",
+    "development",
+    "analysis",
+    "insights",
+    "patterns",
+    "git",
+    "semantic"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "workspaceContains:.git"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "ades.analyzeRepository",
+        "title": "Analyze Repository",
+        "category": "ADES",
+        "icon": "$(search)"
+      },
+      {
+        "command": "ades.showDashboard",
+        "title": "Open Dashboard",
+        "category": "ADES",
+        "icon": "$(dashboard)"
+      },
+      {
+        "command": "ades.searchPatterns",
+        "title": "Search Patterns",
+        "category": "ADES",
+        "icon": "$(symbol-class)"
+      },
+      {
+        "command": "ades.getInsights",
+        "title": "Get AI Insights",
+        "category": "ADES",
+        "icon": "$(lightbulb)"
+      },
+      {
+        "command": "ades.semanticSearch",
+        "title": "Semantic Search",
+        "category": "ADES",
+        "icon": "$(search-fuzzy)"
+      },
+      {
+        "command": "ades.showKnowledgeGraph",
+        "title": "Show Knowledge Graph",
+        "category": "ADES",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "ades.extractPatterns",
+        "title": "Extract Reusable Patterns",
+        "category": "ADES",
+        "icon": "$(symbol-snippet)"
+      },
+      {
+        "command": "ades.connectServer",
+        "title": "Connect to ADES Server",
+        "category": "ADES",
+        "icon": "$(plug)"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "ades.analyzeRepository",
+          "when": "explorerResourceIsFolder",
+          "group": "ades@1"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "ades.getInsights",
+          "when": "editorHasSelection",
+          "group": "ades@1"
+        },
+        {
+          "command": "ades.semanticSearch",
+          "when": "editorHasSelection",
+          "group": "ades@2"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "ades.analyzeRepository",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "command": "ades.showDashboard"
+        },
+        {
+          "command": "ades.searchPatterns"
+        },
+        {
+          "command": "ades.getInsights"
+        },
+        {
+          "command": "ades.semanticSearch"
+        },
+        {
+          "command": "ades.showKnowledgeGraph"
+        },
+        {
+          "command": "ades.extractPatterns"
+        },
+        {
+          "command": "ades.connectServer"
+        }
+      ]
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "adesInsights",
+          "name": "ADES Insights",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "id": "adesPatterns",
+          "name": "Reusable Patterns",
+          "when": "workspaceFolderCount > 0"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "ades",
+          "title": "ADES",
+          "icon": "$(robot)"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "ADES",
+      "properties": {
+        "ades.serverUrl": {
+          "type": "string",
+          "default": "http://localhost:8080",
+          "description": "ADES server URL"
+        },
+        "ades.autoAnalyze": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically analyze repository on startup"
+        },
+        "ades.showInsights": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show AI insights in the editor"
+        },
+        "ades.enableSemanticSearch": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable semantic search functionality"
+        },
+        "ades.refreshInterval": {
+          "type": "number",
+          "default": 30,
+          "description": "Refresh interval for insights (seconds)"
+        },
+        "ades.maxInsights": {
+          "type": "number",
+          "default": 10,
+          "description": "Maximum number of insights to display"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "ades.analyzeRepository",
+        "key": "ctrl+alt+a",
+        "mac": "cmd+alt+a"
+      },
+      {
+        "command": "ades.showDashboard",
+        "key": "ctrl+alt+d",
+        "mac": "cmd+alt+d"
+      },
+      {
+        "command": "ades.semanticSearch",
+        "key": "ctrl+alt+s",
+        "mac": "cmd+alt+s"
+      },
+      {
+        "command": "ades.getInsights",
+        "key": "ctrl+alt+i",
+        "mac": "cmd+alt+i"
+      }
+    ],
+    "languages": [
+      {
+        "id": "ades-pattern",
+        "aliases": ["ADES Pattern", "ades-pattern"],
+        "extensions": [".ades"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "ades-pattern",
+        "scopeName": "source.ades-pattern",
+        "path": "./syntaxes/ades-pattern.tmGrammar.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "typescript": "^4.9.4",
+    "@vscode/test-electron": "^2.2.0",
+    "vsce": "^2.15.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "ws": "^8.14.0",
+    "@types/ws": "^8.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ades-team/ades-vscode-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ades-team/ades-vscode-extension/issues"
+  },
+  "homepage": "https://github.com/ades-team/ades-vscode-extension#readme",
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#667eea",
+    "theme": "dark"
+  }
+} 

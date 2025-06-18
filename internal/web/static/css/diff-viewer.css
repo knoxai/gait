@@ -1,0 +1,248 @@
+/* Diff viewer styles */
+.file-diff {
+    display: none;
+    border-top: 1px solid #3e3e42;
+    background: #1a1a1a;
+}
+
+.file-item.expanded .file-diff {
+    display: block;
+}
+
+.diff-controls {
+    padding: 8px 12px;
+    background: #2d2d30;
+    border-bottom: 1px solid #3e3e42;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.diff-view-toggle {
+    display: flex;
+    background: #3c3c3c;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.diff-view-btn {
+    background: transparent;
+    border: none;
+    color: #cccccc;
+    padding: 4px 8px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.diff-view-btn.active {
+    background: #007acc;
+    color: white;
+}
+
+.diff-view-btn:hover:not(.active) {
+    background: #5a5a5a;
+}
+
+.diff-content {
+    max-height: 400px;
+    overflow: auto;
+}
+
+.diff-fullscreen-btn {
+    background: #0e639c;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 11px;
+    margin-left: 8px;
+}
+
+.diff-fullscreen-btn:hover {
+    background: #1177bb;
+}
+
+.diff-wrap-btn {
+    background: #5a5a5a;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 11px;
+    margin-left: 8px;
+}
+
+.diff-wrap-btn:hover {
+    background: #6a6a6a;
+}
+
+.diff-wrap-btn.active {
+    background: #238636;
+}
+
+.diff-split-view {
+    display: flex;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.diff-split-pane {
+    flex: 1;
+    border-right: 1px solid #3e3e42;
+}
+
+.diff-split-pane:last-child {
+    border-right: none;
+}
+
+.diff-split-header {
+    background: #2d2d30;
+    padding: 4px 8px;
+    font-size: 11px;
+    color: #8c8c8c;
+    border-bottom: 1px solid #3e3e42;
+}
+
+.diff-line {
+    display: flex;
+    min-height: 20px;
+    line-height: 20px;
+}
+
+.diff-line-number {
+    width: 40px;
+    padding: 0 8px;
+    background: #252526;
+    color: #8c8c8c;
+    font-size: 11px;
+    text-align: right;
+    border-right: 1px solid #3e3e42;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.diff-line-content {
+    flex: 1;
+    padding: 0 8px;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    word-break: break-all;
+}
+
+.diff-line-content.no-wrap {
+    white-space: pre;
+    word-break: normal;
+}
+
+.diff-line.addition {
+    background: rgba(35, 134, 54, 0.2);
+}
+
+.diff-line.deletion {
+    background: rgba(218, 54, 51, 0.2);
+}
+
+.diff-line.context {
+    background: transparent;
+}
+
+.diff-unified-view {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.diff-hunk-header {
+    background: #2d2d30;
+    color: #8c8c8c;
+    padding: 4px 8px;
+    font-size: 11px;
+    border-top: 1px solid #3e3e42;
+    border-bottom: 1px solid #3e3e42;
+}
+
+.diff-unified-line {
+    display: flex;
+    min-height: 20px;
+    line-height: 20px;
+}
+
+.diff-unified-line.addition {
+    background: rgba(35, 134, 54, 0.2);
+}
+
+.diff-unified-line.deletion {
+    background: rgba(218, 54, 51, 0.2);
+}
+
+.diff-unified-line .diff-line-number {
+    width: 60px;
+}
+
+/* Fullscreen overlay styles */
+.fullscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #1e1e1e;
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+}
+
+.fullscreen-overlay.active {
+    display: flex;
+}
+
+.fullscreen-header {
+    background: #2d2d30;
+    padding: 8px 16px;
+    border-bottom: 1px solid #3e3e42;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.fullscreen-title {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.fullscreen-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.fullscreen-close {
+    background: #da3633;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.fullscreen-close:hover {
+    background: #f14c4c;
+}
+
+.fullscreen-content {
+    flex: 1;
+    overflow: auto;
+    padding: 0;
+}
+
+.fullscreen-diff-content {
+    height: 100%;
+    max-height: none;
+} 

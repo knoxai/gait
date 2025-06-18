@@ -1,0 +1,98 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ades-service
+  namespace: ades-system
+  labels:
+    app.kubernetes.io/name: ades
+    app.kubernetes.io/component: service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  - port: 8081
+    targetPort: 8081
+    protocol: TCP
+    name: ide
+  - port: 8082
+    targetPort: 8082
+    protocol: TCP
+    name: collaboration
+  - port: 8083
+    targetPort: 8083
+    protocol: TCP
+    name: visualization
+  - port: 9090
+    targetPort: 9090
+    protocol: TCP
+    name: metrics
+  selector:
+    app.kubernetes.io/name: ades
+    app.kubernetes.io/component: application
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ades-loadbalancer
+  namespace: ades-system
+  labels:
+    app.kubernetes.io/name: ades
+    app.kubernetes.io/component: loadbalancer
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    app.kubernetes.io/name: nginx
+    app.kubernetes.io/component: proxy
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  namespace: ades-system
+  labels:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/component: cache
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6379
+    targetPort: 6379
+    protocol: TCP
+    name: redis
+  selector:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/component: cache
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: ades-system
+  labels:
+    app.kubernetes.io/name: postgres
+    app.kubernetes.io/component: database
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+    name: postgres
+  selector:
+    app.kubernetes.io/name: postgres
+    app.kubernetes.io/component: database 

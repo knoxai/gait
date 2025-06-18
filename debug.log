@@ -1,0 +1,41 @@
+2025/06/14 12:40:11 Discovered 1 repositories, defaulting to: gait
+2025/06/14 12:40:11 Initializing ADES service...
+2025/06/14 12:40:11 ADES database migrated successfully: /Users/G9mD/Desktop/gait/.gait/ades.db
+2025/06/14 12:40:11 FTS5 not available, falling back to basic search: no such module: fts5
+2025/06/14 12:40:11 ML Pattern Recognition Engine initialized
+2025/06/14 12:40:11 Code Review Engine initialized
+2025/06/14 12:40:11 IDE Integration Server initialized
+2025/06/14 12:40:11 Collaboration Server initialized
+2025/06/14 12:40:11 Dashboard Server initialized
+2025/06/14 12:40:11 Performance Optimizer initialized
+2025/06/14 12:40:11 Security Hardening initialized
+2025/06/14 12:40:11 Metrics Collector initialized
+2025/06/14 12:40:11 Health Checker initialized
+2025/06/14 12:40:11 Logger initialized
+2025/06/14 12:40:11 Batch config: EnableBatchAnalysis=false
+2025/06/14 12:40:11 Collaboration server started
+2025/06/14 12:40:11 Batch Analyzer disabled in configuration
+2025/06/14 12:40:11 IDE Integration Server starting on port 8081
+2025/06/14 12:40:11 Dashboard server started
+2025/06/14 12:40:11 ADES service initialized for repository: /Users/G9mD/Desktop/gait
+2025/06/14 12:40:11 ADES service initialized successfully
+2025/06/14 12:40:11 Initializing MCP server...
+2025/06/14 12:40:11 MCP server initialized successfully
+2025/06/14 12:40:11 Registering MCP server routes...
+2025/06/14 12:40:11 MCP server routes registered successfully
+🌳 GAIT Server Starting (Optimized + MCP)
+Port: 8080
+Repositories: 1 found
+Current: gait
+Performance Features:
+  ✓ Server-side rendering for commits
+  ✓ Batch API endpoints
+  ✓ Concurrent data fetching
+  ✓ MCP server integration
+  ✓ AI context provider
+MCP Endpoints:
+  • WebSocket: ws://localhost:8080/mcp/ws
+  • HTTP: http://localhost:8080/mcp/http
+  • Tools: http://localhost:8080/mcp/tools
+  • Context: http://localhost:8080/api/mcp/context
+Open http://localhost:8080 in your browser

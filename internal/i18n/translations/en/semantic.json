@@ -1,0 +1,8 @@
+{
+  "features": "Features",
+  "fixes": "Fixes",
+  "refactoring": "Refactoring",
+  "documentation": "Documentation",
+  "testing": "Testing",
+  "performance": "Performance"
+} 

@@ -1,0 +1,184 @@
+{
+  "database": {
+    "path": ".gait/ades.db",
+    "enable_fts": true,
+    "max_connections": 10,
+    "backup_interval": "24h"
+  },
+  "semantic": {
+    "enable_intent_classification": true,
+    "enable_topic_extraction": true,
+    "enable_complexity_analysis": true,
+    "min_confidence_threshold": 0.5,
+    "custom_keywords": [],
+    "language_support": [
+      "go",
+      "javascript",
+      "typescript",
+      "python",
+      "java"
+    ],
+    "feature_implementation_indicators": [
+      "functionality",
+      "component",
+      "module",
+      "service"
+    ],
+    "bug_resolution_indicators": [
+      "issue",
+      "error",
+      "problem",
+      "crash"
+    ],
+    "code_improvement_indicators": [
+      "performance",
+      "structure",
+      "quality"
+    ],
+    "testing_indicators": [
+      "coverage",
+      "assertion",
+      "mock"
+    ],
+    "documentation_indicators": [
+      "guide",
+      "example",
+      "tutorial"
+    ],
+    "configuration_indicators": [
+      "environment",
+      "settings",
+      "pipeline"
+    ],
+    "authentication_keywords": [
+      "auth",
+      "login",
+      "password",
+      "token",
+      "session"
+    ],
+    "database_keywords": [
+      "db",
+      "database",
+      "sql",
+      "query",
+      "table",
+      "schema"
+    ],
+    "api_keywords": [
+      "api",
+      "endpoint",
+      "rest",
+      "graphql",
+      "route",
+      "handler"
+    ],
+    "ui_keywords": [
+      "ui",
+      "interface",
+      "component",
+      "view",
+      "template",
+      "form"
+    ],
+    "security_keywords": [
+      "security",
+      "encrypt",
+      "decrypt",
+      "hash",
+      "validate"
+    ],
+    "performance_keywords": [
+      "performance",
+      "optimize",
+      "cache",
+      "speed",
+      "memory"
+    ],
+    "javascript_keywords": [
+      "js",
+      "javascript",
+      "node",
+      "npm",
+      "yarn"
+    ],
+    "typescript_keywords": [
+      "ts",
+      "typescript",
+      "tsc",
+      "types",
+      "interface"
+    ],
+    "react_keywords": [
+      "react",
+      "jsx",
+      "tsx",
+      "component",
+      "hook",
+      "state"
+    ],
+    "go_keywords": [
+      "go",
+      "golang",
+      "mod",
+      "pkg",
+      "func",
+      "struct"
+    ],
+    "python_keywords": [
+      "py",
+      "python",
+      "pip",
+      "venv",
+      "django",
+      "flask"
+    ],
+    "docker_keywords": [
+      "docker",
+      "dockerfile",
+      "container",
+      "image",
+      "compose"
+    ]
+  },
+  "vector": {
+    "enable_embeddings": true,
+    "vectorizer_type": "tfidf",
+    "max_vocabulary_size": 10000,
+    "max_features": 1000,
+    "min_word_frequency": 2,
+    "similarity_threshold": 0.7,
+    "embedding_dimensions": 300
+  },
+  "knowledge": {
+    "enable_knowledge_graph": true,
+    "max_nodes": 10000,
+    "max_edges": 50000,
+    "relationship_types": [
+      "uses",
+      "implements",
+      "solves",
+      "similar",
+      "depends_on",
+      "extends"
+    ],
+    "min_relationship_weight": 0.3,
+    "enable_advanced_queries": true
+  },
+  "api": {
+    "enable_cors": true,
+    "rate_limit": 1000,
+    "max_request_size": 10485760,
+    "enable_compression": true,
+    "allowed_origins": [
+      "*"
+    ]
+  },
+  "performance": {
+    "enable_caching": true,
+    "cache_size": 1000,
+    "max_concurrent_jobs": 4,
+    "enable_batch_analysis": true,
+    "batch_size": 50
+  }
+}

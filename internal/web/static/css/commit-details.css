@@ -1,0 +1,594 @@
+/* Commit details styles */
+.commit-details {
+    flex: 1;
+    background: #1e1e1e;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.commit-details.hidden {
+    display: none;
+}
+
+.details-header {
+    background: #2d2d30;
+    padding: 8px 16px;
+    border-bottom: 1px solid #3e3e42;
+    font-weight: 600;
+    font-size: 14px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.details-toggle-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+    font-size: 12px;
+    min-width: 24px;
+    justify-content: center;
+}
+
+.details-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+}
+
+.details-toggle-btn:active {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(0.95);
+}
+
+.details-toggle-btn .toggle-icon {
+    font-size: 14px;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+.details-toggle-btn.collapsed .toggle-icon {
+    transform: rotate(-90deg);
+}
+
+.details-content {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.commit-info {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #3e3e42;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    max-height: 500px;
+}
+
+.commit-info.collapsed {
+    max-height: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    opacity: 0;
+}
+
+.commit-info h3 {
+    color: #ffffff;
+    font-size: 16px;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.commit-info .meta {
+    color: #8c8c8c;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.commit-info code {
+    background: #3c3c3c;
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 11px;
+}
+
+.commit-stats {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    align-items: center;
+}
+
+.commit-stats .total-additions {
+    color: #238636;
+    font-weight: 600;
+    background: rgba(35, 134, 54, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+.commit-stats .total-deletions {
+    color: #da3633;
+    font-weight: 600;
+    background: rgba(218, 54, 51, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+.commit-stats .files-changed {
+    color: #8c8c8c;
+    font-size: 11px;
+}
+
+.file-changes {
+    margin-top: 16px;
+}
+
+.file-changes h4 {
+    color: #ffffff;
+    font-size: 14px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.file-list {
+    list-style: none;
+}
+
+.file-item {
+    background: #252526;
+    border: 1px solid #3e3e42;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.file-header {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.file-header:hover {
+    background: #2a2d2e;
+}
+
+.file-expand-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #8c8c8c;
+    transition: transform 0.2s ease;
+}
+
+.file-item.expanded .file-expand-icon {
+    transform: rotate(90deg);
+}
+
+.file-status {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 16px;
+    margin-right: 8px;
+}
+
+.file-status.A {
+    background: #238636;
+    color: white;
+}
+
+.file-status.M {
+    background: #d29922;
+    color: white;
+}
+
+.file-status.D {
+    background: #da3633;
+    color: white;
+}
+
+.file-status.R {
+    background: #8250df;
+    color: white;
+}
+
+.file-path {
+    flex: 1;
+    color: #cccccc;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 12px;
+    margin-right: 8px;
+}
+
+.file-stats {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+}
+
+.file-stats .additions {
+    color: #238636;
+    font-weight: 600;
+    background: rgba(35, 134, 54, 0.1);
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 10px;
+}
+
+.file-stats .deletions {
+    color: #da3633;
+    font-weight: 600;
+    background: rgba(218, 54, 51, 0.1);
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 10px;
+}
+
+.file-stats .separator {
+    color: #8c8c8c;
+}
+
+/* Status indicators for uncommitted changes */
+.status-indicator {
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 2px;
+    margin-left: 4px;
+}
+
+.status-indicator.staged {
+    background: rgba(40, 167, 69, 0.2);
+    color: #28a745;
+    border: 1px solid #28a745;
+}
+
+.status-indicator.unstaged {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    border: 1px solid #ffc107;
+}
+
+.status-indicator.untracked {
+    background: rgba(108, 117, 125, 0.2);
+    color: #6c757d;
+    border: 1px solid #6c757d;
+}
+
+/* Ensure proper spacing for uncommitted file items */
+.file-item .file-header {
+    min-height: 32px;
+}
+
+/* Better visual separation for expanded files */
+.file-item.expanded {
+    border-color: #007acc;
+    background: #2a2d2e;
+}
+
+.file-item.expanded .file-header {
+    background: #2a2d2e;
+    border-bottom: 1px solid #3e3e42;
+}
+
+/* File tree styles */
+.file-tree {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 12px;
+}
+
+.tree-directory {
+    margin-bottom: 2px;
+}
+
+.tree-item {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease;
+    min-height: 24px;
+}
+
+.tree-item:hover {
+    background: #2a2d2e;
+}
+
+.tree-item.directory {
+    font-weight: 500;
+    color: #cccccc;
+}
+
+.tree-item.file {
+    color: #cccccc;
+    padding: 6px 8px;
+}
+
+.tree-icon {
+    margin-right: 6px;
+    font-size: 14px;
+    width: 16px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.tree-name {
+    flex: 1;
+    margin-right: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tree-name.file-name {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 12px;
+}
+
+.tree-children {
+    margin-left: 20px;
+    border-left: 1px solid #3e3e42;
+    padding-left: 4px;
+}
+
+/* File tree specific file item styles */
+.file-item.tree-file {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+.file-item.tree-file .file-header {
+    background: transparent;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 3px;
+    margin: 1px 0;
+}
+
+.file-item.tree-file .file-header:hover {
+    background: #2a2d2e;
+}
+
+.file-item.tree-file.expanded .file-header {
+    background: #2a2d2e;
+    border-bottom: 1px solid #3e3e42;
+}
+
+.file-item.tree-file.expanded {
+    background: #252526;
+    border: 1px solid #3e3e42;
+    border-radius: 4px;
+    margin: 2px 0;
+}
+
+/* Directory toggle states */
+.tree-directory.collapsed .tree-children {
+    display: none;
+}
+
+.tree-directory.collapsed .tree-icon {
+    transform: rotate(-90deg);
+}
+
+/* File status in tree view */
+.tree-item .file-status {
+    margin-right: 6px;
+    margin-left: 2px;
+}
+
+/* File stats in tree view */
+.tree-item .file-stats {
+    font-size: 10px;
+    margin-left: auto;
+}
+
+/* Root level files (no directory) */
+.file-tree > .file-item.tree-file {
+    margin-left: 0;
+}
+
+/* Improve spacing for nested items */
+.tree-children .tree-children {
+    margin-left: 16px;
+}
+
+/* Directory icons */
+.tree-directory .tree-icon {
+    cursor: pointer;
+}
+
+.tree-directory .tree-icon:hover {
+    transform: scale(1.1);
+}
+
+/* File tree control buttons */
+.file-tree-controls {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.tree-control-btn {
+    background: #3c3c3c;
+    border: 1px solid #5a5a5a;
+    color: #cccccc;
+    padding: 4px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    min-width: 28px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tree-control-btn:hover {
+    background: #4a4a4a;
+    border-color: #007acc;
+    transform: scale(1.05);
+}
+
+.tree-control-btn:active {
+    background: #2a2a2a;
+    transform: scale(0.95);
+}
+
+/* File action buttons */
+.file-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.file-item:hover .file-actions {
+    opacity: 1;
+}
+
+.file-action-btn {
+    background: none;
+    border: 1px solid #555;
+    color: #cccccc;
+    padding: 2px 6px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 10px;
+    transition: all 0.2s ease;
+    min-width: 24px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-action-btn:hover {
+    background: #3e3e42;
+    border-color: #666;
+}
+
+.file-action-btn.stage {
+    border-color: #28a745;
+    color: #28a745;
+}
+
+.file-action-btn.stage:hover {
+    background: rgba(40, 167, 69, 0.1);
+    border-color: #28a745;
+}
+
+.file-action-btn.unstage {
+    border-color: #ffc107;
+    color: #ffc107;
+}
+
+.file-action-btn.unstage:hover {
+    background: rgba(255, 193, 7, 0.1);
+    border-color: #ffc107;
+}
+
+.file-action-btn.discard {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.file-action-btn.discard:hover {
+    background: rgba(220, 53, 69, 0.1);
+    border-color: #dc3545;
+}
+
+/* Commit actions */
+.commit-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #3e3e42;
+}
+
+.action-btn.primary {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    border: none;
+    color: white;
+    font-weight: 600;
+}
+
+.action-btn.primary:hover {
+    background: linear-gradient(135deg, #218838, #1ea085);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.action-btn.secondary {
+    background: #3e3e42;
+    border: 1px solid #555;
+    color: #cccccc;
+}
+
+.action-btn.secondary:hover {
+    background: #4a4a4e;
+    border-color: #666;
+    transform: translateY(-1px);
+}
+
+.action-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    border: none;
+    font-family: inherit;
+}
+
+/* Responsive commit actions */
+@media (max-width: 768px) {
+    .commit-actions {
+        flex-direction: column;
+    }
+    
+    .commit-actions .action-btn {
+        justify-content: center;
+        min-width: 120px;
+    }
+} 

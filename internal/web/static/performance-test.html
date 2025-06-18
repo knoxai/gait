@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAIT Performance Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .results {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .faster {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .slower {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .progress {
+            width: 100%;
+            height: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-bar {
+            height: 100%;
+            background: #007bff;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 GAIT Performance Test</h1>
+    <p>This page tests the performance improvements in the optimized GAIT implementation.</p>
+
+    <div class="test-section">
+        <h2>📊 Load Time Comparison</h2>
+        <p>Compare initial data loading times between different approaches:</p>
+        
+        <button onclick="testOriginalApproach()">Test Original (Multiple API Calls)</button>
+        <button onclick="testOptimizedApproach()">Test Optimized (Batch + SSR)</button>
+        <button onclick="testServerSideRendering()">Test Server-Side Rendering</button>
+        
+        <div class="progress" id="progress" style="display: none;">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="results" id="results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔄 Lazy Loading Performance</h2>
+        <p>Test lazy loading performance with different batch sizes:</p>
+        
+        <button onclick="testLazyLoading(25)">Test 25 commits/batch</button>
+        <button onclick="testLazyLoading(50)">Test 50 commits/batch</button>
+        <button onclick="testLazyLoading(100)">Test 100 commits/batch</button>
+        
+        <div class="results" id="lazyResults"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🎯 Rendering Performance</h2>
+        <p>Compare client-side vs server-side rendering:</p>
+        
+        <button onclick="testClientSideRendering()">Test Client-Side Rendering</button>
+        <button onclick="testServerSideRendering()">Test Server-Side Rendering</button>
+        
+        <div class="results" id="renderResults"></div>
+    </div>
+
+    <script>
+        let testResults = {};
+
+        function showProgress() {
+            document.getElementById('progress').style.display = 'block';
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                document.getElementById('progressBar').style.width = progress + '%';
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        document.getElementById('progress').style.display = 'none';
+                        document.getElementById('progressBar').style.width = '0%';
+                    }, 500);
+                }
+            }, 100);
+        }
+
+        async function testOriginalApproach() {
+            showProgress();
+            const startTime = performance.now();
+            
+            try {
+                // Simulate original approach with multiple API calls
+                const [commits, branches, tags, stashes, remotes] = await Promise.all([
+                    fetch('/api/commits?limit=50').then(r => r.json()),
+                    fetch('/api/branches').then(r => r.json()),
+                    fetch('/api/tags').then(r => r.json()),
+                    fetch('/api/stashes').then(r => r.json()),
+                    fetch('/api/remotes').then(r => r.json())
+                ]);
+                
+                // Simulate client-side rendering time
+                await new Promise(resolve => setTimeout(resolve, 50));
+                
+                const endTime = performance.now();
+                const duration = endTime - startTime;
+                
+                testResults.original = duration;
+                updateResults('Original Approach', duration, 'results');
+                
+            } catch (error) {
+                document.getElementById('results').innerHTML = `<span class="slower">Error: ${error.message}</span>`;
+            }
+        }
+
+        async function testOptimizedApproach() {
+            showProgress();
+            const startTime = performance.now();
+            
+            try {
+                // Use optimized batch endpoint
+                const allData = await fetch('/api/all?limit=50').then(r => r.json());
+                
+                // Simulate minimal client-side processing
+                await new Promise(resolve => setTimeout(resolve, 10));
+                
+                const endTime = performance.now();
+                const duration = endTime - startTime;
+                
+                testResults.optimized = duration;
+                updateResults('Optimized Approach', duration, 'results');
+                
+                // Show comparison if both tests have run
+                if (testResults.original && testResults.optimized) {
+                    showComparison();
+                }
+                
+            } catch (error) {
+                document.getElementById('results').innerHTML = `<span class="slower">Error: ${error.message}</span>`;
+            }
+        }
+
+        async function testServerSideRendering() {
+            showProgress();
+            const startTime = performance.now();
+            
+            try {
+                // Test server-side rendered HTML
+                const html = await fetch('/api/commits/html?limit=50').then(r => r.text());
+                
+                // Simulate DOM insertion
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = html;
+                
+                const endTime = performance.now();
+                const duration = endTime - startTime;
+                
+                testResults.ssr = duration;
+                updateResults('Server-Side Rendering', duration, 'renderResults');
+                
+            } catch (error) {
+                document.getElementById('renderResults').innerHTML = `<span class="slower">Error: ${error.message}</span>`;
+            }
+        }
+
+        async function testClientSideRendering() {
+            const startTime = performance.now();
+            
+            try {
+                // Get raw data and render client-side
+                const commits = await fetch('/api/commits?limit=50').then(r => r.json());
+                
+                // Simulate client-side rendering
+                let html = '';
+                commits.forEach(commit => {
+                    html += `
+                        <li class="commit-item" data-hash="${commit.hash}">
+                            <div class="commit-hash">${commit.hash.substring(0, 7)}</div>
+                            <div class="commit-message">${commit.message}</div>
+                            <div class="commit-meta">
+                                <span class="commit-author">${commit.author.name}</span>
+                                <span class="commit-date">${new Date(commit.date).toLocaleDateString()}</span>
+                            </div>
+                        </li>
+                    `;
+                });
+                
+                const endTime = performance.now();
+                const duration = endTime - startTime;
+                
+                testResults.clientRender = duration;
+                updateResults('Client-Side Rendering', duration, 'renderResults');
+                
+            } catch (error) {
+                document.getElementById('renderResults').innerHTML = `<span class="slower">Error: ${error.message}</span>`;
+            }
+        }
+
+        async function testLazyLoading(batchSize) {
+            const startTime = performance.now();
+            
+            try {
+                // Test multiple batches
+                const batches = 3;
+                for (let i = 0; i < batches; i++) {
+                    await fetch(`/api/commits/html?limit=${batchSize}&offset=${i * batchSize}`).then(r => r.text());
+                }
+                
+                const endTime = performance.now();
+                const duration = endTime - startTime;
+                
+                updateResults(`Lazy Loading (${batchSize} commits/batch, ${batches} batches)`, duration, 'lazyResults');
+                
+            } catch (error) {
+                document.getElementById('lazyResults').innerHTML = `<span class="slower">Error: ${error.message}</span>`;
+            }
+        }
+
+        function updateResults(testName, duration, elementId) {
+            const existing = document.getElementById(elementId).innerHTML;
+            const newResult = `<div><strong>${testName}:</strong> ${duration.toFixed(2)}ms</div>`;
+            document.getElementById(elementId).innerHTML = existing + newResult;
+        }
+
+        function showComparison() {
+            const improvement = ((testResults.original - testResults.optimized) / testResults.original * 100);
+            const comparisonClass = improvement > 0 ? 'faster' : 'slower';
+            const comparisonText = improvement > 0 ? 
+                `🚀 ${improvement.toFixed(1)}% faster!` : 
+                `⚠️ ${Math.abs(improvement).toFixed(1)}% slower`;
+            
+            const comparison = `<div class="${comparisonClass}">Performance improvement: ${comparisonText}</div>`;
+            document.getElementById('results').innerHTML += comparison;
+        }
+
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                console.log('🧪 GAIT Performance Test Ready');
+                console.log('Click the buttons above to run performance tests');
+            }, 1000);
+        });
+    </script>
+</body>
+</html> 

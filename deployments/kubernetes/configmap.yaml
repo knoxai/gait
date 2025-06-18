@@ -1,0 +1,159 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ades-config
+  namespace: ades-system
+  labels:
+    app.kubernetes.io/name: ades
+    app.kubernetes.io/component: config
+data:
+  ades-config.json: |
+    {
+      "server": {
+        "port": 8080,
+        "host": "0.0.0.0",
+        "read_timeout": "30s",
+        "write_timeout": "30s",
+        "idle_timeout": "60s"
+      },
+      "database": {
+        "type": "sqlite",
+        "path": "/app/data/ades.db",
+        "max_connections": 25,
+        "connection_timeout": "30s"
+      },
+      "git": {
+        "max_repos": 100,
+        "clone_timeout": "300s",
+        "analysis_timeout": "600s"
+      },
+      "semantic": {
+        "enabled": true,
+        "model_path": "/app/models",
+        "embedding_dimension": 384,
+        "similarity_threshold": 0.7
+      },
+      "vector_db": {
+        "type": "chroma",
+        "host": "localhost",
+        "port": 8000,
+        "collection_name": "ades_embeddings"
+      },
+      "knowledge_graph": {
+        "enabled": true,
+        "max_nodes": 10000,
+        "max_relationships": 50000
+      },
+      "mcp": {
+        "enabled": true,
+        "websocket_port": 8080,
+        "http_port": 8080,
+        "max_connections": 100,
+        "context_cache_ttl": "1h"
+      },
+      "ml": {
+        "enabled": true,
+        "model_update_interval": "24h",
+        "confidence_threshold": 0.8,
+        "max_features": 1000
+      },
+      "review": {
+        "enabled": true,
+        "max_suggestions": 10,
+        "severity_threshold": "medium"
+      },
+      "ide_integration": {
+        "enabled": true,
+        "port": 8081,
+        "max_sessions": 50,
+        "session_timeout": "30m"
+      },
+      "collaboration": {
+        "enabled": true,
+        "max_rooms": 100,
+        "max_users_per_room": 20,
+        "message_history_limit": 1000
+      },
+      "visualization": {
+        "enabled": true,
+        "max_widgets": 50,
+        "update_interval": "5s",
+        "export_formats": ["png", "svg", "pdf"]
+      },
+      "logging": {
+        "level": "info",
+        "format": "json",
+        "output": "stdout"
+      },
+      "metrics": {
+        "enabled": true,
+        "port": 9090,
+        "path": "/metrics"
+      }
+    }
+  
+  nginx.conf: |
+    events {
+        worker_connections 1024;
+    }
+    
+    http {
+        upstream ades_backend {
+            server ades-service:8080;
+        }
+        
+        upstream ades_ide {
+            server ades-service:8081;
+        }
+        
+        upstream ades_collaboration {
+            server ades-service:8082;
+        }
+        
+        upstream ades_visualization {
+            server ades-service:8083;
+        }
+        
+        server {
+            listen 80;
+            server_name _;
+            
+            location / {
+                proxy_pass http://ades_backend;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+            }
+            
+            location /ide/ {
+                proxy_pass http://ades_ide/;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+            }
+            
+            location /collaboration/ {
+                proxy_pass http://ades_collaboration/;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+            }
+            
+            location /visualization/ {
+                proxy_pass http://ades_visualization/;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+            }
+        }
+    } 

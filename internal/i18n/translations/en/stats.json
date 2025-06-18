@@ -1,0 +1,8 @@
+{
+  "total_commits": "Total Commits",
+  "active_developers": "Active Developers",
+  "code_quality_score": "Code Quality Score",
+  "technical_debt": "Technical Debt",
+  "commits_per_day": "Commits per Day",
+  "current_period": "Current Period"
+} 

@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ades-deployment
+  namespace: ades-system
+  labels:
+    app.kubernetes.io/name: ades
+    app.kubernetes.io/component: application
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ades
+      app.kubernetes.io/component: application
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ades
+        app.kubernetes.io/component: application
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
+      containers:
+      - name: ades
+        image: ades:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 8081
+          name: ide
+          protocol: TCP
+        - containerPort: 8082
+          name: collaboration
+          protocol: TCP
+        - containerPort: 8083
+          name: visualization
+          protocol: TCP
+        - containerPort: 9090
+          name: metrics
+          protocol: TCP
+        env:
+        - name: GAIT_PORT
+          value: "8080"
+        - name: GAIT_DATA_DIR
+          value: "/app/data"
+        - name: GAIT_CONFIG_PATH
+          value: "/app/config/ades-config.json"
+        - name: GAIT_LOG_LEVEL
+          value: "info"
+        - name: GAIT_ENABLE_METRICS
+          value: "true"
+        - name: GAIT_REDIS_URL
+          value: "redis://redis-service:6379"
+        - name: GAIT_POSTGRES_URL
+          valueFrom:
+            secretKeyRef:
+              name: ades-secrets
+              key: postgres-url
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+          readOnly: true
+        - name: data-volume
+          mountPath: /app/data
+        - name: repositories-volume
+          mountPath: /app/repositories
+          readOnly: true
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+      volumes:
+      - name: config-volume
+        configMap:
+          name: ades-config
+          items:
+          - key: ades-config.json
+            path: ades-config.json
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: ades-data-pvc
+      - name: repositories-volume
+        persistentVolumeClaim:
+          claimName: ades-repositories-pvc
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30 
