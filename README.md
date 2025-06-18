@@ -2,7 +2,6 @@
 
 > **GAIT is not gait, It's AI in the GIT.**
 
-[![Build Status](https://github.com/knoxai/gait/workflows/CI/badge.svg)](https://github.com/knoxai/gait/actions)
 [![Go Version](https://img.shields.io/badge/Go-1.22+-blue.svg)](https://golang.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](Dockerfile)
