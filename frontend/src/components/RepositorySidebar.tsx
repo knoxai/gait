@@ -176,7 +176,7 @@ export function RepositorySidebar({
                 <CollapsibleContent>
                   <div className="mt-2">
                     {repositories.length === 0 ? (
-                      <div className="p-4 text-center border border-dashed rounded-lg mx-2 my-2">
+                      <div className="p-4 text-center border border-dashed border-border rounded-lg mx-2 my-2 bg-card/50">
                         <Folder className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                         <div className="text-sm text-muted-foreground mb-3">
                           No repositories found
@@ -194,42 +194,44 @@ export function RepositorySidebar({
                       </div>
                     ) : (
                       <div className="space-y-1 px-2">
-                        {repositories.map((repo) => (
-                          <div
-                            key={repo.path}
-                            className={cn(
-                              "group flex items-center justify-between p-3 rounded-lg transition-all duration-200",
-                              repo.current 
-                                ? "bg-gradient-to-r from-blue-600/30 to-blue-500/20" 
-                                : "hover:bg-accent cursor-pointer border-2 border-transparent hover:border-gray-600"
-                            )}
-                          >
-                            <div 
+                        {repositories.map((repo) => {
+                          const isCurrentRepo = currentRepository?.path === repo.path
+                          return (
+                            <div
+                              key={repo.path}
                               className={cn(
-                                "flex items-center space-x-3 flex-1 min-w-0",
-                                !repo.current && "cursor-pointer"
+                                "group flex items-center justify-between p-3 rounded-lg transition-all duration-200 border-2 border-transparent",
+                                isCurrentRepo 
+                                  ? "bg-primary/10 border-primary/20 shadow-sm" 
+                                  : "bg-card border-border hover:bg-accent cursor-pointer hover:border-accent-foreground/20"
                               )}
-                              onClick={() => !repo.current && onSwitchRepository(repo.path)}
                             >
-                              <Folder className={cn(
-                                "h-5 w-5 flex-shrink-0",
-                                repo.current ? "text-blue-300" : "text-muted-foreground"
-                              )} />
-                              <div className="flex-1 min-w-0">
-                                <div className={cn(
-                                  "font-medium truncate text-sm",
-                                  repo.current ? "text-blue-100 font-bold" : "text-foreground"
-                                )}>
-                                  {repo.name}
-                                </div>
-                                <div className={cn(
-                                  "text-xs truncate",
-                                  repo.current ? "text-blue-200" : "text-muted-foreground"
-                                )}>
-                                  {repo.path}
+                              <div 
+                                className={cn(
+                                  "flex items-center space-x-3 flex-1 min-w-0",
+                                  !isCurrentRepo && "cursor-pointer"
+                                )}
+                                onClick={() => !isCurrentRepo && onSwitchRepository(repo.path)}
+                              >
+                                <Folder className={cn(
+                                  "h-5 w-5 flex-shrink-0",
+                                  isCurrentRepo ? "text-primary" : "text-muted-foreground"
+                                )} />
+                                <div className="flex-1 min-w-0">
+                                  <div className={cn(
+                                    "font-medium truncate text-sm",
+                                    isCurrentRepo ? "text-primary font-semibold" : "text-card-foreground"
+                                  )}>
+                                    {repo.name}
+                                  </div>
+                                  <div className={cn(
+                                    "text-xs truncate",
+                                    isCurrentRepo ? "text-primary/70" : "text-muted-foreground"
+                                  )}>
+                                    {repo.path}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
                             <div className="flex items-center space-x-2 flex-shrink-0">
                               <Button
                                 variant="ghost"
@@ -237,14 +239,15 @@ export function RepositorySidebar({
                                 onClick={() => onRemoveRepository(repo.path, repo.name)}
                                 className={cn(
                                   "opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8 p-0",
-                                  repo.current ? "hover:bg-blue-700/50 text-blue-200" : "hover:bg-destructive/10 text-muted-foreground hover:text-destructive"
+                                  "hover:bg-destructive/10 text-muted-foreground hover:text-destructive"
                                 )}
                               >
                                 <Trash2 className="h-4 w-4" />
                               </Button>
                             </div>
                           </div>
-                        ))}
+                          )
+                        })}
                       </div>
                     )}
                   </div>
