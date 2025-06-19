@@ -1,8 +1,0 @@
-{
-  "api_implementation": "API 实现",
-  "database_migration": "数据库迁移",
-  "error_handling": "错误处理",
-  "authentication_logic": "身份验证逻辑",
-  "authentication_system": "身份验证系统",
-  "api_handler_implementation": "API 处理器实现"
-} 

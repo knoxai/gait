@@ -20,7 +20,6 @@ import (
 	"github.com/knoxai/gait/internal/ai"
 	"github.com/knoxai/gait/pkg/types"
 	"github.com/knoxai/gait/internal/ades/config"
-	"github.com/knoxai/gait/internal/i18n"
 	"github.com/gorilla/mux"
 )
 
@@ -247,59 +246,6 @@ func main() {
 		json.NewEncoder(w).Encode(map[string]string{"status": "success"})
 	}).Methods("POST")
 	
-	// Language switching endpoint
-	router.HandleFunc("/api/language/switch", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != "POST" {
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-			return
-		}
-		
-		var request struct {
-			Language string `json:"language"`
-		}
-		
-		if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
-			http.Error(w, "Invalid JSON", http.StatusBadRequest)
-			return
-		}
-		
-		// Validate and set locale
-		switch request.Language {
-		case "en":
-			i18n.SetLocale(i18n.English)
-		case "zh":
-			i18n.SetLocale(i18n.Chinese)
-		default:
-			http.Error(w, "Unsupported language", http.StatusBadRequest)
-			return
-		}
-		
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]interface{}{
-			"success": true,
-			"language": string(i18n.GetLocale()),
-			"message": i18n.T("notifications.language_changed"),
-		})
-	}).Methods("POST")
-	
-	// Get current language
-	router.HandleFunc("/api/language/current", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]interface{}{
-			"language": string(i18n.GetLocale()),
-			"available": []string{"en", "zh"},
-		})
-	}).Methods("GET")
-
-	// Get current language (alternative endpoint for compatibility)
-	router.HandleFunc("/api/language", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]interface{}{
-			"language": string(i18n.GetLocale()),
-			"available": []string{"en", "zh"},
-		})
-	}).Methods("GET")
-
 	// API endpoints
 	router.HandleFunc("/api/all", apiHandler.GetAllData)
 	router.HandleFunc("/api/commits", apiHandler.GetCommits)
@@ -446,7 +392,6 @@ func main() {
 	if aiHandlers != nil {
 		fmt.Printf("  ✓ AI-Powered Code Analysis\n")
 	}
-	fmt.Printf("  ✓ Multi-language Support (EN/中文)\n")
 	fmt.Printf("\n🌐 Open http://localhost:%s in your browser\n", *port)
 	fmt.Printf("📊 Dashboard: http://localhost:%s/dashboard\n", *port)
 	fmt.Printf("📚 API Docs: http://localhost:%s/docs\n", *port)

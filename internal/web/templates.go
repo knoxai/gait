@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/knoxai/gait/pkg/types"
-	"github.com/knoxai/gait/internal/i18n"
 )
 
 //go:embed static/*
@@ -26,8 +25,6 @@ type TemplateData struct {
 	HasMore  bool
 	Offset   int
 	Limit    int
-	Language string
-	AvailableLanguages []string
 }
 
 // CommitListData holds data for partial commit list rendering
@@ -47,7 +44,7 @@ type Server struct {
 
 // NewServer creates a new web server with embedded templates
 func NewServer(repoName string) *Server {
-	// Create template function map with i18n support
+	// Create template function map
 	funcMap := template.FuncMap{
 		"formatDate": formatDate,
 		"escapeHtml": template.HTMLEscapeString,
@@ -56,19 +53,6 @@ func NewServer(repoName string) *Server {
 				return hash[:7]
 			}
 			return hash
-		},
-		"t": i18n.T,
-		"tf": i18n.Tf,
-		"currentLang": func() string {
-			return string(i18n.GetLocale())
-		},
-		"availableLangs": func() []string {
-			locales := i18n.GetInstance().GetAvailableLocales()
-			langs := make([]string, len(locales))
-			for i, locale := range locales {
-				langs[i] = string(locale)
-			}
-			return langs
 		},
 	}
 
@@ -181,11 +165,11 @@ const commitListTemplate = `{{range .Commits}}
 {{end}}
 {{if .HasMore}}
 <li class="loading-more">
-    <div class="loading">{{t "status.loading_more"}}</div>
+    <div class="loading">Loading more commits...</div>
 </li>
 {{else}}
 <li class="end-indicator">
-    <div class="loading">{{t "status.all_loaded"}}</div>
+    <div class="loading">📜 All commits loaded</div>
 </li>
 {{end}}`
 
@@ -202,22 +186,7 @@ const optimizedTemplate = `<!DOCTYPE html>
     <link rel="stylesheet" href="/static/css/commit-list.css">
     <link rel="stylesheet" href="/static/css/commit-details.css">
     <link rel="stylesheet" href="/static/css/diff-viewer.css">
-    <style>
-        .language-switcher {
-            margin-left: 12px;
-        }
-        .language-switcher select {
-            background: #3e3e42;
-            color: #cccccc;
-            border: 1px solid #5a5a5a;
-            border-radius: 4px;
-            padding: 4px 8px;
-            font-size: 12px;
-        }
-        .language-switcher select:hover {
-            background: #4a4a4a;
-        }
-    </style>
+
 </head>
 <body>
     <div class="header">
@@ -244,54 +213,48 @@ const optimizedTemplate = `<!DOCTYPE html>
         <div class="header-center">
             <div class="git-operations-toolbar">
                 <div class="toolbar-group">
-                    <button class="toolbar-btn" onclick="gAItUI.showGitOperationsMenu('branch')" title="{{t "git.branch"}} Operations">
+                    <button class="toolbar-btn" onclick="gAItUI.showGitOperationsMenu('branch')" title="Branch Operations">
                         <span class="btn-icon">🌿</span>
-                        <span class="btn-text">{{t "git.branch"}}</span>
+                        <span class="btn-text">Branch</span>
                         <span class="btn-arrow">▼</span>
                     </button>
-                    <button class="toolbar-btn" onclick="gAItUI.showGitOperationsMenu('remote')" title="{{t "git.remote"}} Operations">
+                    <button class="toolbar-btn" onclick="gAItUI.showGitOperationsMenu('remote')" title="Remote Operations">
                         <span class="btn-icon">🌐</span>
-                        <span class="btn-text">{{t "git.remote"}}</span>
+                        <span class="btn-text">Remote</span>
                         <span class="btn-arrow">▼</span>
                     </button>
-                    <button class="toolbar-btn" onclick="gAItUI.showGitOperationsMenu('stash')" title="{{t "git.stash"}} Operations">
+                    <button class="toolbar-btn" onclick="gAItUI.showGitOperationsMenu('stash')" title="Stash Operations">
                         <span class="btn-icon">📦</span>
-                        <span class="btn-text">{{t "git.stash"}}</span>
+                        <span class="btn-text">Stash</span>
                         <span class="btn-arrow">▼</span>
                     </button>
-                    <button class="toolbar-btn" onclick="gAItUI.showGitOperationsMenu('tag')" title="{{t "git.tag"}} Operations">
+                    <button class="toolbar-btn" onclick="gAItUI.showGitOperationsMenu('tag')" title="Tag Operations">
                         <span class="btn-icon">🏷️</span>
-                        <span class="btn-text">{{t "git.tag"}}</span>
+                        <span class="btn-text">Tag</span>
                         <span class="btn-arrow">▼</span>
                     </button>
                 </div>
                 <div class="toolbar-separator"></div>
                 <div class="toolbar-group">
-                    <button class="toolbar-btn" onclick="gAItUI.performQuickOperation('fetch')" title="{{t "git.fetch"}} from all remotes">
+                    <button class="toolbar-btn" onclick="gAItUI.performQuickOperation('fetch')" title="Fetch from all remotes">
                         <span class="btn-icon">📥</span>
-                        <span class="btn-text">{{t "git.fetch"}}</span>
+                        <span class="btn-text">Fetch</span>
                     </button>
-                    <button class="toolbar-btn" onclick="gAItUI.performQuickOperation('pull')" title="{{t "git.pull"}} current branch">
+                    <button class="toolbar-btn" onclick="gAItUI.performQuickOperation('pull')" title="Pull current branch">
                         <span class="btn-icon">⬇️</span>
-                        <span class="btn-text">{{t "git.pull"}}</span>
+                        <span class="btn-text">Pull</span>
                     </button>
-                    <button class="toolbar-btn" onclick="gAItUI.performQuickOperation('push')" title="{{t "git.push"}} current branch">
+                    <button class="toolbar-btn" onclick="gAItUI.performQuickOperation('push')" title="Push current branch">
                         <span class="btn-icon">⬆️</span>
-                        <span class="btn-text">{{t "git.push"}}</span>
+                        <span class="btn-text">Push</span>
                     </button>
                 </div>
             </div>
         </div>
         <div class="controls">
-            <button class="btn" onclick="window.location.href='/dashboard'">🚀 {{t "navigation.dashboard"}}</button>
-            <button class="btn" onclick="toggleSearch()">{{t "navigation.search"}} (Ctrl+F)</button>
-            <button class="btn secondary" onclick="refreshData()">{{t "navigation.refresh"}} (Ctrl+R)</button>
-            <div class="language-switcher">
-                <select id="languageSelect" onchange="switchLanguage(this.value)">
-                    <option value="en" {{if eq (currentLang) "en"}}selected{{end}}>{{t "language.english"}}</option>
-                    <option value="zh" {{if eq (currentLang) "zh"}}selected{{end}}>{{t "language.chinese"}}</option>
-                </select>
-            </div>
+            <button class="btn" onclick="window.location.href='/dashboard'">🚀 Dashboard</button>
+            <button class="btn" onclick="toggleSearch()">Search (Ctrl+F)</button>
+            <button class="btn secondary" onclick="refreshData()">Refresh (Ctrl+R)</button>
         </div>
     </div>
     
@@ -310,48 +273,48 @@ const optimizedTemplate = `<!DOCTYPE html>
             
             <div class="sidebar-section" id="branchesSection">
                 <h3 onclick="toggleSidebarSection('branches')">
-                    <span>{{t "sidebar.branches"}}</span>
+                    <span>Branches</span>
                     <span class="toggle-icon">▼</span>
                 </h3>
                 <div class="section-content">
                     <ul class="sidebar-list" id="branchesList">
-                        <li class="loading">{{t "status.loading"}}...</li>
+                        <li class="loading">Loading...</li>
                     </ul>
                 </div>
             </div>
             
             <div class="sidebar-section" id="tagsSection">
                 <h3 onclick="toggleSidebarSection('tags')">
-                    <span>{{t "sidebar.tags"}}</span>
+                    <span>Tags</span>
                     <span class="toggle-icon">▼</span>
                 </h3>
                 <div class="section-content">
                     <ul class="sidebar-list" id="tagsList">
-                        <li class="loading">{{t "status.loading"}}...</li>
+                        <li class="loading">Loading...</li>
                     </ul>
                 </div>
             </div>
             
             <div class="sidebar-section" id="stashesSection">
                 <h3 onclick="toggleSidebarSection('stashes')">
-                    <span>{{t "sidebar.stashes"}}</span>
+                    <span>Stashes</span>
                     <span class="toggle-icon">▼</span>
                 </h3>
                 <div class="section-content">
                     <ul class="sidebar-list" id="stashesList">
-                        <li class="loading">{{t "status.loading"}}...</li>
+                        <li class="loading">Loading...</li>
                     </ul>
                 </div>
             </div>
             
             <div class="sidebar-section" id="remotesSection">
                 <h3 onclick="toggleSidebarSection('remotes')">
-                    <span>{{t "sidebar.remotes"}}</span>
+                    <span>Remotes</span>
                     <span class="toggle-icon">▼</span>
                 </h3>
                 <div class="section-content">
                     <ul class="sidebar-list" id="remotesList">
-                        <li class="loading">{{t "status.loading"}}...</li>
+                        <li class="loading">Loading...</li>
                     </ul>
                 </div>
             </div>
@@ -361,13 +324,13 @@ const optimizedTemplate = `<!DOCTYPE html>
         
         <div class="commit-area">
             <div class="search-box" id="searchBox" style="display: none;">
-                <input type="text" class="search-input" id="searchInput" placeholder="{{t "navigation.search"}} commits..." onkeyup="handleSearch(event)">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search commits..." onkeyup="handleSearch(event)">
             </div>
             
             <div style="display: flex; flex: 1; overflow: hidden;" id="mainPanels">
                 <div class="commit-list-container" id="commitListContainer">
                     <ul class="commit-list" id="commitsList">
-                        <li class="loading">{{t "status.loading_commits"}}...</li>
+                        <li class="loading">Loading commits...</li>
                     </ul>
                 </div>
                 
@@ -375,13 +338,13 @@ const optimizedTemplate = `<!DOCTYPE html>
                 
                 <div class="commit-details hidden" id="commitDetails">
                     <div class="details-header">
-                        				<span id="detailsTitle">{{t "commit.details"}}</span>
+                        				<span id="detailsTitle">Commit Details</span>
                         <button class="details-toggle-btn" id="detailsToggleBtn" onclick="toggleCommitInfo()" title="Toggle commit info (Ctrl+I)">
                             <span class="toggle-icon">▼</span>
                         </button>
                     </div>
                     <div class="details-content" id="detailsContent">
-                        <div class="loading">{{t "commit.select_message"}}</div>
+                        <div class="loading">Select a commit to view details</div>
                     </div>
                 </div>
             </div>
@@ -395,7 +358,7 @@ const optimizedTemplate = `<!DOCTYPE html>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="#fff" fill-rule="evenodd" d="M21.89 4.287v15.425H9.013V4.287zm1.442-1.44c-.383-.383-.892-.56-1.41-.56H2.078c-.517 0-1.026.177-1.409.56c-.382.382-.559.89-.559 1.408v15.49c0 .517.177 1.026.56 1.408c.382.382.89.56 1.408.56h19.846a1.97 1.97 0 0 0 1.409-.56c.382-.382.559-.891.559-1.409V4.255c0-.517-.177-1.026-.56-1.409M6.888 6.306a.75.75 0 0 0-.75-.75H3.234a.75.75 0 1 0 0 1.5h2.904a.75.75 0 0 0 .75-.75m-.75 3.124a.75.75 0 0 1 0 1.5H3.234a.75.75 0 0 1 0-1.5zm.75 4.506a.75.75 0 0 0-.75-.75H3.234a.75.75 0 0 0 0 1.5h2.904a.75.75 0 0 0 .75-.75m-.75 3.006a.75.75 0 0 1 0 1.5H4.879a.75.75 0 0 1 0-1.5z" clip-rule="evenodd"/></svg>
                 </span>
             </button>
-            <span class="status-message">{{t "status.ready"}}</span>
+            <span class="status-message">Ready</span>
         </div>
         <div class="status-bar-right">
             <!-- Additional status information can be added here -->
@@ -417,8 +380,8 @@ const optimizedTemplate = `<!DOCTYPE html>
                 <!-- Modal content will be inserted here -->
             </div>
             <div class="modal-footer" id="modalFooter">
-                <button class="modal-btn modal-btn-secondary" id="modalCancel" onclick="closeModal()">{{t "actions.cancel"}}</button>
-                <button class="modal-btn modal-btn-primary" id="modalConfirm">{{t "actions.confirm"}}</button>
+                <button class="modal-btn modal-btn-secondary" id="modalCancel" onclick="closeModal()">Cancel</button>
+                <button class="modal-btn modal-btn-primary" id="modalConfirm">Confirm</button>
             </div>
         </div>
     </div>
@@ -508,24 +471,22 @@ const optimizedTemplate = `<!DOCTYPE html>
     <!-- Fullscreen Diff Overlay -->
     <div class="fullscreen-overlay" id="fullscreenOverlay">
         <div class="fullscreen-header">
-            <div class="fullscreen-title" id="fullscreenTitle">{{t "file.diff_viewer"}}</div>
+            <div class="fullscreen-title" id="fullscreenTitle">Diff Viewer</div>
             <div class="fullscreen-controls">
                 <div class="diff-view-toggle">
-                    <button class="diff-view-btn active" id="fullscreenSplitBtn" onclick="switchFullscreenDiffView('split')">{{t "file.split_view"}}</button>
-                    <button class="diff-view-btn" id="fullscreenUnifiedBtn" onclick="switchFullscreenDiffView('unified')">{{t "file.unified_view"}}</button>
+                    <button class="diff-view-btn active" id="fullscreenSplitBtn" onclick="switchFullscreenDiffView('split')">Split</button>
+                    <button class="diff-view-btn" id="fullscreenUnifiedBtn" onclick="switchFullscreenDiffView('unified')">Unified</button>
                 </div>
-                <button class="diff-wrap-btn active" id="fullscreenWrapBtn" onclick="toggleFullscreenWrap()">{{t "file.wrap"}}</button>
-                <button class="fullscreen-close" onclick="closeFullscreenDiff()">{{t "file.close"}}</button>
+                <button class="diff-wrap-btn active" id="fullscreenWrapBtn" onclick="toggleFullscreenWrap()">Wrap</button>
+                <button class="fullscreen-close" onclick="closeFullscreenDiff()">Close</button>
             </div>
         </div>
         <div class="fullscreen-content">
             <div class="fullscreen-diff-content" id="fullscreenDiffContent">
-                <div class="loading">{{t "loading.loading_diff"}}...</div>
+                <div class="loading">Loading diff...</div>
             </div>
         </div>
     </div>
-
-    <script src="/static/js/i18n.js"></script>
     <script src="/static/js/api.js"></script>
     <script src="/static/js/clipboard.js"></script>
     <script src="/static/js/modal.js"></script>
@@ -576,29 +537,23 @@ const dashboardTemplate = `<!DOCTYPE html>
     <div class="dashboard-container">
         <div class="dashboard-header">
             <div class="header-left">
-                <h1 class="dashboard-title">{{t "dashboard.title"}} - {{.RepoName}}</h1>
+                <h1 class="dashboard-title">ADES Dashboard - {{.RepoName}}</h1>
             </div>
             <div class="dashboard-controls">
                 <div class="real-time-indicator">
                     <div class="real-time-dot"></div>
-                    <span class="real-time-text">{{t "dashboard.real_time"}}</span>
+                    <span class="real-time-text">Live</span>
                 </div>
                 <label class="toggle-switch">
                     <input type="checkbox" id="realtime-toggle" checked>
                     <span class="toggle-slider"></span>
                 </label>
                 <button class="interactive-button" onclick="window.adesDashboard.refreshDashboard()">
-                    {{t "actions.refresh"}}
+                    Refresh
                 </button>
                 <button class="interactive-button" onclick="window.location.href='/'">
-                    {{t "navigation.git_view"}}
+                    Git View
                 </button>
-                <div class="language-switcher">
-                    <select id="dashboardLanguageSelect" onchange="switchLanguage(this.value)">
-                        <option value="en" {{if eq (currentLang) "en"}}selected{{end}}>{{t "language.english"}}</option>
-                        <option value="zh" {{if eq (currentLang) "zh"}}selected{{end}}>{{t "language.chinese"}}</option>
-                    </select>
-                </div>
             </div>
         </div>
         
@@ -606,7 +561,7 @@ const dashboardTemplate = `<!DOCTYPE html>
             <!-- Statistics Overview -->
             <div class="dashboard-card slide-in-left">
                 <div class="card-header">
-                    <h2 class="card-title">{{t "dashboard.repository_stats"}}</h2>
+                    <h2 class="card-title">Repository Statistics</h2>
                     <span class="card-icon">📊</span>
                 </div>
                 <div class="card-content">
@@ -619,7 +574,7 @@ const dashboardTemplate = `<!DOCTYPE html>
             <!-- Commit Trends Chart -->
             <div class="dashboard-card slide-in-right">
                 <div class="card-header">
-                    <h2 class="card-title">{{t "dashboard.commit_activity"}}</h2>
+                    <h2 class="card-title">Commit Activity</h2>
                     <span class="card-icon">📈</span>
                 </div>
                 <div class="card-content">
@@ -627,7 +582,7 @@ const dashboardTemplate = `<!DOCTYPE html>
                         <canvas id="commitTrendChart"></canvas>
                         <div class="chart-loading">
                             <div class="loading-spinner"></div>
-                            <span>{{t "status.loading"}}...</span>
+                            <span>Loading...</span>
                         </div>
                     </div>
                 </div>
@@ -636,7 +591,7 @@ const dashboardTemplate = `<!DOCTYPE html>
             <!-- Language Distribution -->
             <div class="dashboard-card fade-in">
                 <div class="card-header">
-                    <h2 class="card-title">{{t "dashboard.language_distribution"}}</h2>
+                    <h2 class="card-title">Language Distribution</h2>
                     <span class="card-icon">🌐</span>
                 </div>
                 <div class="card-content">
@@ -644,7 +599,7 @@ const dashboardTemplate = `<!DOCTYPE html>
                         <canvas id="languageChart"></canvas>
                         <div class="chart-loading">
                             <div class="loading-spinner"></div>
-                            <span>{{t "status.analyzing"}}...</span>
+                            <span>Analyzing...</span>
                         </div>
                     </div>
                 </div>
@@ -653,7 +608,7 @@ const dashboardTemplate = `<!DOCTYPE html>
             <!-- Developer Activity -->
             <div class="dashboard-card fade-in">
                 <div class="card-header">
-                    <h2 class="card-title">{{t "dashboard.developer_contributions"}}</h2>
+                    <h2 class="card-title">Developer Contributions</h2>
                     <span class="card-icon">👥</span>
                 </div>
                 <div class="card-content">
@@ -661,7 +616,7 @@ const dashboardTemplate = `<!DOCTYPE html>
                         <canvas id="developerChart"></canvas>
                         <div class="chart-loading">
                             <div class="loading-spinner"></div>
-                            <span>{{t "status.loading"}}...</span>
+                            <span>Loading...</span>
                         </div>
                     </div>
                 </div>
@@ -670,7 +625,7 @@ const dashboardTemplate = `<!DOCTYPE html>
             <!-- Semantic Analysis -->
             <div class="dashboard-card slide-in-left">
                 <div class="card-header">
-                    <h2 class="card-title">{{t "dashboard.semantic_trends"}}</h2>
+                    <h2 class="card-title">Semantic Trends</h2>
                     <span class="card-icon">🧠</span>
                 </div>
                 <div class="card-content">
@@ -678,7 +633,7 @@ const dashboardTemplate = `<!DOCTYPE html>
                         <canvas id="semanticChart"></canvas>
                         <div class="chart-loading">
                             <div class="loading-spinner"></div>
-                            <span>{{t "loading.analyzing_semantic"}}</span>
+                            <span>Analyzing semantic patterns...</span>
                         </div>
                     </div>
                 </div>
@@ -687,7 +642,7 @@ const dashboardTemplate = `<!DOCTYPE html>
             <!-- Knowledge Graph -->
             <div class="dashboard-card slide-in-right">
                 <div class="card-header">
-                    <h2 class="card-title">{{t "dashboard.knowledge_graph"}}</h2>
+                    <h2 class="card-title">Knowledge Graph</h2>
                     <span class="card-icon">🕸️</span>
                 </div>
                 <div class="card-content">
@@ -700,7 +655,7 @@ const dashboardTemplate = `<!DOCTYPE html>
             <!-- Development Timeline -->
             <div class="dashboard-card fade-in">
                 <div class="card-header">
-                    <h2 class="card-title">{{t "dashboard.development_timeline"}}</h2>
+                    <h2 class="card-title">Development Timeline</h2>
                     <span class="card-icon">⏰</span>
                 </div>
                 <div class="card-content">
@@ -713,7 +668,7 @@ const dashboardTemplate = `<!DOCTYPE html>
             <!-- AI Insights -->
             <div class="dashboard-card slide-in-left">
                 <div class="card-header">
-                    <h2 class="card-title">{{t "dashboard.ai_insights"}}</h2>
+                    <h2 class="card-title">AI Insights</h2>
                     <span class="card-icon">🤖</span>
                 </div>
                 <div class="card-content">
@@ -726,22 +681,22 @@ const dashboardTemplate = `<!DOCTYPE html>
             <!-- Quick Actions -->
             <div class="dashboard-card slide-in-right">
                 <div class="card-header">
-                    <h2 class="card-title">{{t "dashboard.quick_actions"}}</h2>
+                    <h2 class="card-title">Quick Actions</h2>
                     <span class="card-icon">⚡</span>
                 </div>
                 <div class="card-content">
                     <div class="actions-grid">
                         <button class="interactive-button" data-action="analyze-repository">
-                            🔍 {{t "actions.analyze_repository"}}
+                            🔍 Analyze Repository
                         </button>
                         <button class="interactive-button" data-action="export-insights">
-                            📤 {{t "actions.export_insights"}}
+                            📤 Export Insights
                         </button>
                         <button class="interactive-button" data-action="view-patterns">
-                            🔍 {{t "actions.view_patterns"}}
+                            🔍 View Patterns
                         </button>
                         <button class="interactive-button" onclick="window.location.href='/api/ades/knowledge/export'">
-                            📊 {{t "actions.export_knowledge_graph"}}
+                            📊 Export Knowledge Graph
                         </button>
                     </div>
                 </div>
@@ -752,7 +707,6 @@ const dashboardTemplate = `<!DOCTYPE html>
     <!-- Notification Container -->
     <div id="notification-container"></div>
 
-    <script src="/static/js/i18n.js"></script>
     <script src="/static/js/dashboard.js"></script>
 
 </body>

@@ -221,11 +221,11 @@ class GaitDiffViewer {
         
         if (isWrapped) {
             wrapBtn.classList.remove('active');
-            wrapBtn.textContent = (typeof i18nManager !== 'undefined') ? i18nManager.t('file.no_wrap') : 'No Wrap';
+            wrapBtn.textContent = 'No Wrap';
             this.applyWrapSetting(diffContent, false);
         } else {
             wrapBtn.classList.add('active');
-            wrapBtn.textContent = (typeof i18nManager !== 'undefined') ? i18nManager.t('file.wrap') : 'Wrap';
+            wrapBtn.textContent = 'Wrap';
             this.applyWrapSetting(diffContent, true);
         }
     }
@@ -239,11 +239,11 @@ class GaitDiffViewer {
         
         if (this.wrapEnabled) {
             wrapBtn.classList.add('active');
-            wrapBtn.textContent = (typeof i18nManager !== 'undefined') ? i18nManager.t('file.wrap') : 'Wrap';
+            wrapBtn.textContent = 'Wrap';
             this.applyWrapSetting(diffContent, true);
         } else {
             wrapBtn.classList.remove('active');
-            wrapBtn.textContent = (typeof i18nManager !== 'undefined') ? i18nManager.t('file.no_wrap') : 'No Wrap';
+            wrapBtn.textContent = 'No Wrap';
             this.applyWrapSetting(diffContent, false);
         }
     }

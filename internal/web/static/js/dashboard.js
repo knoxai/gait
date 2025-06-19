@@ -84,7 +84,7 @@ class ADESDashboard {
             
             // Load dashboard data from single endpoint
             const response = await fetch('/api/ades/dashboard');
-            if (!response.ok) throw new Error((typeof i18nManager !== 'undefined') ? i18nManager.t('error.failed_fetch') + ' dashboard data' : 'Failed to fetch dashboard data');
+            if (!response.ok) throw new Error('Failed to fetch dashboard data');
             const data = await response.json();
 
             console.log('Dashboard data loaded:', data);
@@ -101,25 +101,25 @@ class ADESDashboard {
 
     async fetchAnalytics() {
         const response = await fetch('/api/ades/analytics');
-                    if (!response.ok) throw new Error((typeof i18nManager !== 'undefined') ? i18nManager.t('error.failed_fetch') + ' analytics' : 'Failed to fetch analytics');
+                    if (!response.ok) throw new Error('Failed to fetch analytics');
         return response.json();
     }
 
     async fetchInsights() {
         const response = await fetch('/api/ades/insights');
-                    if (!response.ok) throw new Error((typeof i18nManager !== 'undefined') ? i18nManager.t('error.failed_fetch') + ' insights' : 'Failed to fetch insights');
+                    if (!response.ok) throw new Error('Failed to fetch insights');
         return response.json();
     }
 
     async fetchPatterns() {
         const response = await fetch('/api/ades/patterns');
-                    if (!response.ok) throw new Error((typeof i18nManager !== 'undefined') ? i18nManager.t('error.failed_fetch') + ' patterns' : 'Failed to fetch patterns');
+                    if (!response.ok) throw new Error('Failed to fetch patterns');
         return response.json();
     }
 
     async fetchSemantics() {
         const response = await fetch('/api/ades/semantic/trends');
-                    if (!response.ok) throw new Error((typeof i18nManager !== 'undefined') ? i18nManager.t('error.failed_fetch') + ' semantic trends' : 'Failed to fetch semantic trends');
+                    if (!response.ok) throw new Error('Failed to fetch semantic trends');
         return response.json();
     }
 
@@ -165,22 +165,22 @@ class ADESDashboard {
 
         const stats = [
             { 
-                label: (typeof i18nManager !== 'undefined') ? i18nManager.t('stats.total_commits') : 'Total Commits', 
+                label: 'Total Commits', 
                 value: analytics.totalCommits || 0, 
                 icon: '📝' 
             },
             { 
-                label: (typeof i18nManager !== 'undefined') ? i18nManager.t('stats.active_developers') : 'Active Developers', 
+                label: 'Active Developers', 
                 value: analytics.activeDevelopers || 0, 
                 icon: '👥' 
             },
             { 
-                label: (typeof i18nManager !== 'undefined') ? i18nManager.t('stats.code_quality_score') : 'Code Quality Score', 
+                label: 'Code Quality Score', 
                 value: `${analytics.codeQualityScore || 0}%`, 
                 icon: '⭐' 
             },
             { 
-                label: (typeof i18nManager !== 'undefined') ? i18nManager.t('stats.technical_debt') : 'Technical Debt', 
+                label: 'Technical Debt', 
                 value: analytics.technicalDebt || 'Unknown', 
                 icon: '⚠️' 
             }
@@ -357,14 +357,7 @@ class ADESDashboard {
         this.charts.set('semanticTrends', new Chart(ctx, {
             type: 'radar',
             data: {
-                labels: (typeof i18nManager !== 'undefined') ? [
-                    i18nManager.t('semantic.features'),
-                    i18nManager.t('semantic.fixes'),
-                    i18nManager.t('semantic.refactoring'),
-                    i18nManager.t('semantic.documentation'),
-                    i18nManager.t('semantic.testing'),
-                    i18nManager.t('semantic.performance')
-                ] : ['Features', 'Fixes', 'Refactoring', 'Documentation', 'Testing', 'Performance'],
+                labels: ['Features', 'Fixes', 'Refactoring', 'Documentation', 'Testing', 'Performance'],
                 datasets: [{
                     label: 'Current Period',
                     data: [],
@@ -485,25 +478,25 @@ class ADESDashboard {
                 nodes: [
                     { 
                         id: 'data-model', 
-                        label: (typeof i18nManager !== 'undefined') ? i18nManager.t('graph.data_model') : 'Data Model', 
+                        label: 'Data Model', 
                         size: 12, 
                         color: '#007acc' 
                     },
                     { 
                         id: 'api-layer', 
-                        label: (typeof i18nManager !== 'undefined') ? i18nManager.t('graph.api_layer') : 'API Layer', 
+                        label: 'API Layer', 
                         size: 10, 
                         color: '#4ec9b0' 
                     },
                     { 
                         id: 'database', 
-                        label: (typeof i18nManager !== 'undefined') ? i18nManager.t('graph.database') : 'Database', 
+                        label: 'Database', 
                         size: 8, 
                         color: '#8250df' 
                     },
                     { 
                         id: 'http-handlers', 
-                        label: (typeof i18nManager !== 'undefined') ? i18nManager.t('graph.http_handlers') : 'HTTP Handlers', 
+                        label: 'HTTP Handlers', 
                         size: 6, 
                         color: '#d29922' 
                     }
@@ -649,8 +642,8 @@ class ADESDashboard {
                 <div class="timeline-item fade-in">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
-                        <div class="timeline-title">${(typeof i18nManager !== 'undefined') ? i18nManager.t('timeline.no_data') : 'No Timeline Data'}</div>
-                        <div class="timeline-description">${(typeof i18nManager !== 'undefined') ? i18nManager.t('timeline.run_analysis') : 'Run repository analysis to generate timeline'}</div>
+                                        <div class="timeline-title">No Timeline Data</div>
+                <div class="timeline-description">Run repository analysis to generate timeline</div>
                         <div class="timeline-date">${new Date().toLocaleDateString()}</div>
                     </div>
                 </div>
@@ -684,11 +677,11 @@ class ADESDashboard {
             // Data is DevelopmentInsights object (from insights endpoint)
             insights = data.top_patterns.map(pattern => ({
                 title: pattern.pattern,
-                description: `${(typeof i18nManager !== 'undefined') ? i18nManager.t('chart.frequency') : 'Frequency'}: ${pattern.frequency}, ${(typeof i18nManager !== 'undefined') ? i18nManager.t('chart.reusability') : 'Reusability'}: ${(pattern.reusability * 100).toFixed(1)}%`,
+                description: `Frequency: ${pattern.frequency}, Reusability: ${(pattern.reusability * 100).toFixed(1)}%`,
                 priority: pattern.reusability > 0.7 ? 'high' : pattern.reusability > 0.4 ? 'medium' : 'low',
                 icon: '🔍',
                 action: 'view-patterns',
-                actionLabel: (typeof i18nManager !== 'undefined') ? i18nManager.t('action.view_details') : 'View Details'
+                actionLabel: 'View Details'
             }));
             
             // Add trends as insights
@@ -700,7 +693,7 @@ class ADESDashboard {
                         priority: trend.confidence > 0.8 ? 'high' : trend.confidence > 0.5 ? 'medium' : 'low',
                         icon: trend.direction === 'up' ? '📈' : trend.direction === 'down' ? '📉' : '📊',
                         action: 'view-patterns',
-                        actionLabel: (typeof i18nManager !== 'undefined') ? i18nManager.t('action.view_trend') : 'View Trend'
+                        actionLabel: 'View Trend'
                     });
                 });
             }
@@ -712,12 +705,12 @@ class ADESDashboard {
         // If no insights found, show a placeholder
         if (insights.length === 0) {
             insights = [{
-                title: (typeof i18nManager !== 'undefined') ? i18nManager.t('insights.no_available') : 'No Insights Available',
-                description: (typeof i18nManager !== 'undefined') ? i18nManager.t('insights.run_analysis') : 'Run repository analysis to generate insights',
+                title: 'No Insights Available',
+                description: 'Run repository analysis to generate insights',
                 priority: 'low',
                 icon: '💡',
                 action: 'analyze-repository',
-                actionLabel: (typeof i18nManager !== 'undefined') ? i18nManager.t('action.analyze_repository') : 'Analyze Now'
+                actionLabel: 'Analyze Now'
             }];
         }
 

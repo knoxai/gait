@@ -135,9 +135,9 @@ class GaitUI {
                     finalHtml += `
                         <li class="commit-item uncommitted-changes" onclick="gAItUI.selectCommit('uncommitted')" data-hash="uncommitted">
                             <div class="commit-hash">⚡</div>
-                            <div class="commit-message">${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.uncommitted_changes') : 'Uncommitted Changes'} (${changeCount})</div>
-                            <div class="commit-meta">
-                                <span class="commit-author">${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.working_directory') : 'Working Directory'}</span>
+                                        <div class="commit-message">${this.t('commit.uncommitted_changes', 'Uncommitted Changes')} (${changeCount})</div>
+            <div class="commit-meta">
+                <span class="commit-author">${this.t('commit.working_directory', 'Working Directory')}</span>
                                 <span class="commit-date">Now</span>
                             </div>
                         </li>
@@ -187,9 +187,9 @@ class GaitUI {
             commitsHtml += `
                 <li class="commit-item uncommitted-changes" onclick="gAItUI.selectCommit('uncommitted')" data-hash="uncommitted">
                     <div class="commit-hash">⚡</div>
-                    <div class="commit-message">${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.uncommitted_changes') : 'Uncommitted Changes'} (${changeCount})</div>
+                    <div class="commit-message">${this.t('commit.uncommitted_changes', 'Uncommitted Changes')} (${changeCount})</div>
                     <div class="commit-meta">
-                        <span class="commit-author">${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.working_directory') : 'Working Directory'}</span>
+                        <span class="commit-author">${this.t('commit.working_directory', 'Working Directory')}</span>
                         <span class="commit-date">Now</span>
                     </div>
                 </li>
@@ -286,32 +286,32 @@ class GaitUI {
                 <div class="action-menu-body">
                     ${!isCurrent ? `
                         <button class="action-btn primary" onclick="gAItUI.performBranchActionWithButton(event, 'checkout', '${branchName}');">
-                            🔄 ${(typeof i18nManager !== 'undefined') ? i18nManager.t('branch.checkout') : 'Checkout'}
+                            🔄 ${this.t('branch.checkout', 'Checkout')}
                         </button>
                         <button class="action-btn secondary" onclick="gAItUI.performBranchActionWithButton(event, 'merge', '${branchName}');">
-                            🔀 ${(typeof i18nManager !== 'undefined') ? i18nManager.t('branch.merge_into_current') : 'Merge into Current'}
+                            🔀 ${this.t('branch.merge_into_current', 'Merge into Current')}
                         </button>
                         <button class="action-btn secondary" onclick="gAItUI.performBranchActionWithButton(event, 'rebase', '${branchName}');">
-                            🔗 ${(typeof i18nManager !== 'undefined') ? i18nManager.t('branch.rebase_current') : 'Rebase Current onto This'}
+                            🔗 ${this.t('branch.rebase_current', 'Rebase Current onto This')}
                         </button>
                         <button class="action-btn secondary" onclick="gAItUI.showRenameBranchDialog('${branchName}');">
-                            ✏️ ${(typeof i18nManager !== 'undefined') ? i18nManager.t('branch.rename') : 'Rename Branch'}
+                            ✏️ ${this.t('branch.rename', 'Rename Branch')}
                         </button>
                         <button class="action-btn danger" onclick="gAItUI.performBranchActionWithButton(event, 'delete', '${branchName}');">
-                            🗑️ ${(typeof i18nManager !== 'undefined') ? i18nManager.t('branch.delete') : 'Delete Branch'}
+                            🗑️ ${this.t('branch.delete', 'Delete Branch')}
                         </button>
                     ` : `
                         <button class="action-btn secondary" onclick="gAItUI.showCreateBranchDialog('${branchName}');">
-                            ➕ ${(typeof i18nManager !== 'undefined') ? i18nManager.t('branch.create_new') : 'Create New Branch'}
+                            ➕ ${this.t('branch.create_new', 'Create New Branch')}
                         </button>
                         <button class="action-btn secondary" onclick="gAItUI.showRenameBranchDialog('${branchName}');">
-                            ✏️ ${(typeof i18nManager !== 'undefined') ? i18nManager.t('branch.rename_current') : 'Rename Current Branch'}
+                            ✏️ ${this.t('branch.rename_current', 'Rename Current Branch')}
                         </button>
                         <button class="action-btn secondary" onclick="gAItUI.showResetBranchDialog('${branchName}');">
-                            ↩️ ${(typeof i18nManager !== 'undefined') ? i18nManager.t('branch.reset') : 'Reset Branch'}
+                            ↩️ ${this.t('branch.reset', 'Reset Branch')}
                         </button>
                         <button class="action-btn secondary" onclick="gAItUI.showRebaseBranchDialog('${branchName}');">
-                            🔗 ${(typeof i18nManager !== 'undefined') ? i18nManager.t('branch.rebase') : 'Rebase Branch'}
+                            🔗 ${this.t('branch.rebase', 'Rebase Branch')}
                         </button>
                     `}
                 </div>
@@ -371,7 +371,7 @@ class GaitUI {
                     </div>
                     ${!isCurrent ? `
                                             <button class="action-btn primary" onclick="gAItUI.exitTagModeAndCheckoutBranch('${branchName}')">
-                        🔄 ${(typeof i18nManager !== 'undefined') ? i18nManager.t('branch.exit_tag_checkout') : 'Exit Tag Mode & Checkout'} ${this.escapeHtml(branchName)}
+                        🔄 ${this.t('branch.exit_tag_checkout', 'Exit Tag Mode & Checkout')} ${this.escapeHtml(branchName)}
                     </button>
                         <button class="action-btn secondary" onclick="gAItUI.exitTagMode()">
                             🏷️ Exit Tag Mode (Stay on Current Branch)
@@ -381,7 +381,7 @@ class GaitUI {
                             🏷️ Exit Tag Mode (Return to ${this.escapeHtml(branchName)})
                         </button>
                         <button class="action-btn secondary" onclick="gAItUI.showCreateBranchDialog('${branchName}')">
-                            ➕ ${(typeof i18nManager !== 'undefined') ? i18nManager.t('branch.create_new') : 'Create New Branch'}
+                            ➕ ${this.t('branch.create_new', 'Create New Branch')}
                         </button>
                     `}
                 </div>
@@ -591,7 +591,7 @@ class GaitUI {
     renderTags(tags) {
         const list = document.getElementById('tagsList');
         if (!Array.isArray(tags) || tags.length === 0) {
-            list.innerHTML = `<li class="loading">${(typeof i18nManager !== 'undefined') ? i18nManager.t('sidebar.no_tags') : 'No tags found'}</li>`;
+            list.innerHTML = `<li class="loading">${this.t('sidebar.no_tags', 'No tags found')}</li>`;
             return;
         }
         list.innerHTML = tags.map(tag => `
@@ -605,7 +605,7 @@ class GaitUI {
     renderStashes(stashes) {
         const list = document.getElementById('stashesList');
         if (!Array.isArray(stashes) || stashes.length === 0) {
-            list.innerHTML = `<li class="loading">${(typeof i18nManager !== 'undefined') ? i18nManager.t('sidebar.no_stashes') : 'No stashes found'}</li>`;
+            list.innerHTML = `<li class="loading">${this.t('sidebar.no_stashes', 'No stashes found')}</li>`;
             return;
         }
         list.innerHTML = stashes.map(stash => `
@@ -619,7 +619,7 @@ class GaitUI {
     renderRemotes(remotes) {
         const list = document.getElementById('remotesList');
         if (!Array.isArray(remotes) || remotes.length === 0) {
-            list.innerHTML = `<li class="loading">${(typeof i18nManager !== 'undefined') ? i18nManager.t('sidebar.no_remotes') : 'No remotes found'}</li>`;
+            list.innerHTML = `<li class="loading">${this.t('sidebar.no_remotes', 'No remotes found')}</li>`;
             return;
         }
         list.innerHTML = remotes.map(remote => `
@@ -655,7 +655,7 @@ class GaitUI {
             return;
         }
         
-        this.showStatus((typeof i18nManager !== 'undefined') ? i18nManager.t('status.loading_commit_details') : 'Loading commit details...', 'info');
+                    this.showStatus(this.t('status.loading_commit_details', 'Loading commit details...'), 'info');
         
         try {
             const commit = await gAItAPI.getCommitDetails(hash);
@@ -663,8 +663,8 @@ class GaitUI {
             this.showStatus('Commit details loaded', 'success');
         } catch (error) {
             document.getElementById('detailsContent').innerHTML = 
-                `<div class="error">${(typeof i18nManager !== 'undefined') ? i18nManager.t('error.failed_load_commit') : 'Failed to load commit details'}: ${error.message}</div>`;
-            this.showStatus((typeof i18nManager !== 'undefined') ? i18nManager.t('error.failed_load_commit') : 'Failed to load commit details', 'error');
+                `<div class="error">${this.t('error.failed_load_commit', 'Failed to load commit details')}: ${error.message}</div>`;
+            this.showStatus(this.t('error.failed_load_commit', 'Failed to load commit details'), 'error');
         }
     }
 
@@ -672,7 +672,7 @@ class GaitUI {
         const title = document.getElementById('detailsTitle');
         const content = document.getElementById('detailsContent');
         
-        title.textContent = `${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.details') : 'Commit'} ${commit.shortHash}`;
+        title.textContent = `${this.t('commit.details', 'Commit')} ${commit.shortHash}`;
         
         let totalAdditions = 0;
         let totalDeletions = 0;
@@ -689,36 +689,36 @@ class GaitUI {
         let html = `
             <div class="commit-info">
                 <h3>${this.escapeHtml(commit.message)}</h3>
-                <div class="meta">${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.author') : 'Author'}: ${this.escapeHtml(commit.author.name)} &lt;${this.escapeHtml(commit.author.email)}&gt;</div>
-                <div class="meta">${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.date') : 'Date'}: ${this.formatDate(commit.date)}</div>
-                <div class="meta">${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.hash') : 'Hash'}: <code>${commit.hash}</code></div>
+                <div class="meta">${this.t('commit.author', 'Author')}: ${this.escapeHtml(commit.author.name)} &lt;${this.escapeHtml(commit.author.email)}&gt;</div>
+                <div class="meta">${this.t('commit.date', 'Date')}: ${this.formatDate(commit.date)}</div>
+                <div class="meta">${this.t('commit.hash', 'Hash')}: <code>${commit.hash}</code></div>
                 ${commit.parents && commit.parents.length > 0 ? 
-                    `<div class="meta">${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.parents') : 'Parents'}: ${commit.parents.map(p => `<code>${p.substring(0, 7)}</code>`).join(', ')}</div>` : ''}
+                    `<div class="meta">${this.t('commit.parents', 'Parents')}: ${commit.parents.map(p => `<code>${p.substring(0, 7)}</code>`).join(', ')}</div>` : ''}
                 ${filesChanged > 0 ? `
                     <div class="commit-stats">
-                        <span class="files-changed">${filesChanged} ${(typeof i18nManager !== 'undefined') ? (filesChanged !== 1 ? i18nManager.t('commit.files_changed') : i18nManager.t('commit.file_changed')) : (filesChanged !== 1 ? 'files changed' : 'file changed')}</span>
+                        <span class="files-changed">${filesChanged} ${filesChanged !== 1 ? this.t('commit.files_changed', 'files changed') : this.t('commit.file_changed', 'file changed')}</span>
                         ${totalAdditions > 0 ? `<span class="total-additions">+${totalAdditions}</span>` : ''}
                         ${totalDeletions > 0 ? `<span class="total-deletions">-${totalDeletions}</span>` : ''}
                     </div>
                 ` : ''}
                 <div class="commit-actions">
                     <button class="action-btn secondary" onclick="gAItUI.performCommitAction('cherry-pick', '${commit.hash}')" title="Cherry-pick this commit">
-                        🍒 ${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.cherry_pick_action') : 'Cherry-pick'}
+                        🍒 ${this.t('commit.cherry_pick_action', 'Cherry-pick')}
                     </button>
                     <button class="action-btn secondary" onclick="gAItUI.performCommitAction('revert', '${commit.hash}')" title="Revert this commit">
-                        ↩️ ${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.revert_action') : 'Revert'}
+                        ↩️ ${this.t('commit.revert_action', 'Revert')}
                     </button>
                     <button class="action-btn secondary" onclick="gAItUI.performCommitAction('reset', '${commit.hash}')" title="Reset current branch to this commit">
-                        🎯 ${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.reset_to_here') : 'Reset to Here'}
+                        🎯 ${this.t('commit.reset_to_here', 'Reset to Here')}
                     </button>
                     <button class="action-btn secondary" onclick="gAItUI.performCommitAction('create-tag', '${commit.hash}')" title="Create tag at this commit">
-                        🏷️ ${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.create_tag') : 'Tag'}
+                        🏷️ ${this.t('commit.create_tag', 'Tag')}
                     </button>
                     <button class="action-btn secondary" onclick="gAItUI.performCommitAction('create-branch', '${commit.hash}')" title="Create branch from this commit">
-                        🌿 ${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.create_branch') : 'Branch'}
+                        🌿 ${this.t('commit.create_branch', 'Branch')}
                     </button>
                     <button class="action-btn secondary" onclick="gAItClipboard.copyCommitHash('${commit.hash}')" title="Copy commit hash">
-                        📋 ${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.copy_hash') : 'Copy Hash'}
+                        📋 ${this.t('commit.copy_hash', 'Copy Hash')}
                     </button>
                 </div>
             </div>
@@ -736,10 +736,10 @@ class GaitUI {
             
             html += `
                 <div class="file-changes">
-                    <h4>${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.changed_files') : 'Changed Files'} (${commit.fileChanges.length})
+                    <h4>${this.t('commit.changed_files', 'Changed Files')} (${commit.fileChanges.length})
                         <div class="file-tree-controls">
-                            <button class="tree-control-btn" onclick="gAItUI.expandAllDirectories()" title="${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.expand_all') : 'Expand all directories'}">📁</button>
-                            <button class="tree-control-btn" onclick="gAItUI.collapseAllDirectories()" title="${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.collapse_all') : 'Collapse all directories'}">📂</button>
+                            <button class="tree-control-btn" onclick="gAItUI.expandAllDirectories()" title="${this.t('file.expand_all', 'Expand all directories')}">📁</button>
+                            <button class="tree-control-btn" onclick="gAItUI.collapseAllDirectories()" title="${this.t('file.collapse_all', 'Collapse all directories')}">📂</button>
                         </div>
                     </h4>
                     <div class="file-tree">
@@ -807,14 +807,14 @@ class GaitUI {
                         <div class="file-diff" id="diff-${index}">
                             <div class="diff-controls">
                                 <div class="diff-view-toggle">
-                                    <button class="diff-view-btn active" onclick="gAItUI.switchDiffView(${index}, 'split')">${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.split_view') : 'Split'}</button>
-                                    <button class="diff-view-btn" onclick="gAItUI.switchDiffView(${index}, 'unified')">${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.unified_view') : 'Unified'}</button>
+                                    <button class="diff-view-btn active" onclick="gAItUI.switchDiffView(${index}, 'split')">${this.t('file.split_view', 'Split')}</button>
+                                    <button class="diff-view-btn" onclick="gAItUI.switchDiffView(${index}, 'unified')">${this.t('file.unified_view', 'Unified')}</button>
                                 </div>
-                                <button class="diff-wrap-btn active" id="wrap-btn-${index}" onclick="gAItDiffViewer.toggleWrap(${index})">${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.wrap') : 'Wrap'}</button>
-                                <button class="diff-fullscreen-btn" onclick="gAItDiffViewer.openFullscreenDiff('${commitHash}', '${this.escapeHtml(file.path)}', ${index})">${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.fullscreen') : 'Fullscreen'}</button>
+                                <button class="diff-wrap-btn active" id="wrap-btn-${index}" onclick="gAItDiffViewer.toggleWrap(${index})">${this.t('file.wrap', 'Wrap')}</button>
+                                <button class="diff-fullscreen-btn" onclick="gAItDiffViewer.openFullscreenDiff('${commitHash}', '${this.escapeHtml(file.path)}', ${index})">${this.t('file.fullscreen', 'Fullscreen')}</button>
                             </div>
                             <div class="diff-content" id="diff-content-${index}">
-                                <div class="loading">${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.loading_diff') : 'Loading diff...'}</div>
+                                <div class="loading">${this.t('file.loading_diff', 'Loading diff...')}</div>
                             </div>
                         </div>
                     </div>
@@ -1133,7 +1133,7 @@ class GaitUI {
             this.showStatus(`Loading diff for ${filePath}...`, 'info');
             
             try {
-                diffContent.innerHTML = `<div class="loading">${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.loading_diff') : 'Loading diff...'}</div>`;
+                diffContent.innerHTML = `<div class="loading">${this.t('file.loading_diff', 'Loading diff...')}</div>`;
                 const diff = await gAItAPI.getFileDiff('uncommitted', filePath);
                 console.log(`Diff loaded for ${filePath}:`, diff);
                 
@@ -1850,17 +1850,15 @@ class GaitUI {
     }
 
     // Helper function to get translated text with placeholder replacement
-    t(key, ...args) {
-        if (typeof i18nManager !== 'undefined') {
-            let text = i18nManager.t(key);
-            // Replace placeholders {0}, {1}, etc. with provided arguments
-            args.forEach((arg, index) => {
-                text = text.replace(new RegExp(`\\{${index}\\}`, 'g'), arg);
-            });
-            return text;
-        }
-        // Fallback - return the key if i18nManager is not available
-        return key;
+    t(key, fallback = null, ...args) {
+        let text = fallback || key;
+        
+        // Replace placeholders {0}, {1}, etc. with provided arguments
+        args.forEach((arg, index) => {
+            text = text.replace(new RegExp(`\\{${index}\\}`, 'g'), arg);
+        });
+        
+        return text;
     }
 
     formatDate(dateString) {
@@ -2211,15 +2209,15 @@ class GaitUI {
         const title = document.getElementById('detailsTitle');
         const content = document.getElementById('detailsContent');
         
-        title.textContent = (typeof i18nManager !== 'undefined') ? i18nManager.t('commit.uncommitted_changes') : 'Uncommitted Changes';
+        title.textContent = this.t('commit.uncommitted_changes', 'Uncommitted Changes');
         
         const changes = this.currentData.uncommittedChanges || [];
         
         if (changes.length === 0) {
             content.innerHTML = `
                 <div class="commit-info">
-                    <h3>${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.no_uncommitted') : 'No Uncommitted Changes'}</h3>
-                    <div class="meta">${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.working_clean') : 'Working directory is clean'}</div>
+                    <h3>${this.t('commit.no_uncommitted', 'No Uncommitted Changes')}</h3>
+                    <div class="meta">${this.t('commit.working_clean', 'Working directory is clean')}</div>
                 </div>
             `;
             return;
@@ -2243,36 +2241,36 @@ class GaitUI {
         
         let html = `
             <div class="commit-info">
-                <h3>${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.uncommitted') : 'Uncommitted Changes'}</h3>
-                <div class="meta">${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.displaying') : 'Displaying all uncommitted changes'}.</div>
+                <h3>${this.t('commit.uncommitted', 'Uncommitted Changes')}</h3>
+                <div class="meta">${this.t('commit.displaying', 'Displaying all uncommitted changes')}.</div>
                 <div class="commit-stats">
-                    <span class="files-changed">${filesChanged} ${(typeof i18nManager !== 'undefined') ? (filesChanged !== 1 ? i18nManager.t('commit.files_changed') : i18nManager.t('commit.file_changed')) : (filesChanged !== 1 ? 'files changed' : 'file changed')}</span>
+                    <span class="files-changed">${filesChanged} ${filesChanged !== 1 ? this.t('commit.files_changed', 'files changed') : this.t('commit.file_changed', 'file changed')}</span>
                     ${totalAdditions > 0 ? `<span class="total-additions">+${totalAdditions}</span>` : ''}
                     ${totalDeletions > 0 ? `<span class="total-deletions">-${totalDeletions}</span>` : ''}
                 </div>
                 <div class="commit-stats">
-                    ${stagedChanges.length > 0 ? `<span class="staged-count">${stagedChanges.length} ${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.status.staged') : 'staged'}</span>` : ''}
-                    ${unstagedChanges.length > 0 ? `<span class="unstaged-count">${unstagedChanges.length} ${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.status.unstaged') : 'unstaged'}</span>` : ''}
-                    ${untrackedFiles.length > 0 ? `<span class="untracked-count">${untrackedFiles.length} ${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.status.untracked') : 'untracked'}</span>` : ''}
+                    ${stagedChanges.length > 0 ? `<span class="staged-count">${stagedChanges.length} ${this.t('file.status.staged', 'staged')}</span>` : ''}
+                    ${unstagedChanges.length > 0 ? `<span class="unstaged-count">${unstagedChanges.length} ${this.t('file.status.unstaged', 'unstaged')}</span>` : ''}
+                    ${untrackedFiles.length > 0 ? `<span class="untracked-count">${untrackedFiles.length} ${this.t('file.status.untracked', 'untracked')}</span>` : ''}
                 </div>
                 <div class="commit-actions">
                     ${stagedChanges.length > 0 ? `
                         <button class="action-btn primary" onclick="gAItUI.showCommitDialog()" title="Create commit with staged changes">
-                            💾 ${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.commit_staged') : 'Commit Staged Changes'}
+                            💾 ${this.t('commit.commit_staged', 'Commit Staged Changes')}
                         </button>
                     ` : ''}
                     ${unstagedChanges.length > 0 || untrackedFiles.length > 0 ? `
                         <button class="action-btn secondary" onclick="gAItUI.stageAllChanges()" title="Stage all changes for commit">
-                            ➕ ${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.stage_all') : 'Stage All Changes'}
+                            ➕ ${this.t('commit.stage_all', 'Stage All Changes')}
                         </button>
                     ` : ''}
                     ${stagedChanges.length > 0 ? `
                                         <button class="action-btn secondary" onclick="gAItUI.unstageAllChanges()" title="Unstage all changes">
-                    ➖ ${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.unstage_all') : 'Unstage All Changes'}
+                    ➖ ${this.t('commit.unstage_all', 'Unstage All Changes')}
                         </button>
                     ` : ''}
-                    <button class="action-btn secondary" onclick="gAItUI.refreshUncommittedChanges()" title="${(typeof i18nManager !== 'undefined') ? i18nManager.t('refresh.title') : 'Refresh uncommitted changes'}">
-                        🔄 ${(typeof i18nManager !== 'undefined') ? i18nManager.t('action.refresh') : 'Refresh'}
+                    <button class="action-btn secondary" onclick="gAItUI.refreshUncommittedChanges()" title="${this.t('refresh.title', 'Refresh uncommitted changes')}">
+                        🔄 ${this.t('action.refresh', 'Refresh')}
                     </button>
                 </div>
             </div>
@@ -2284,7 +2282,7 @@ class GaitUI {
         // Create file tree structure
         html += `
             <div class="file-changes">
-                <h4>${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.changed_files') : 'Changed Files'} (${changes.length})
+                <h4>${this.t('commit.changed_files', 'Changed Files')} (${changes.length})
                     <div class="file-tree-controls">
                         <button class="tree-control-btn" onclick="gAItUI.expandAllDirectories()" title="Expand all directories">📁</button>
                         <button class="tree-control-btn" onclick="gAItUI.collapseAllDirectories()" title="Collapse all directories">📂</button>
@@ -2421,7 +2419,7 @@ class GaitUI {
                                     </button>
                                 `}
                                 ${!change.status.startsWith('staged-') ? `
-                                    <button class="file-action-btn discard" onclick="gAItUI.discardFileChanges('${this.escapeHtml(change.path)}')" title="${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.discard_changes') : 'Discard changes'}"
+                                    <button class="file-action-btn discard" onclick="gAItUI.discardFileChanges('${this.escapeHtml(change.path)}')" title="${this.t('commit.discard_changes', 'Discard changes')}"
                                         🗑️
                                     </button>
                                 ` : ''}
@@ -2430,15 +2428,15 @@ class GaitUI {
                         <div class="file-diff" id="uncommitted-diff-${index}">
                             <div class="diff-controls">
                                 <div class="diff-view-toggle">
-                                    <button class="diff-view-btn active" onclick="gAItUI.switchUncommittedDiffView(${index}, 'split')">${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.split_view') : 'Split'}</button>
-                                    <button class="diff-view-btn" onclick="gAItUI.switchUncommittedDiffView(${index}, 'unified')">${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.unified_view') : 'Unified'}</button>
+                                    <button class="diff-view-btn active" onclick="gAItUI.switchUncommittedDiffView(${index}, 'split')">${this.t('file.split_view', 'Split')}</button>
+                                    <button class="diff-view-btn" onclick="gAItUI.switchUncommittedDiffView(${index}, 'unified')">${this.t('file.unified_view', 'Unified')}</button>
                                 </div>
-                                <button class="diff-wrap-btn active" id="uncommitted-wrap-btn-${index}" onclick="gAItUI.toggleUncommittedWrap(${index})">${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.wrap') : 'Wrap'}</button>
-                                <button class="diff-edit-btn" onclick="gAItUI.toggleUncommittedFileEditor('${this.escapeHtml(change.path)}', ${index})">${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.edit') : 'Edit'}</button>
-                                <button class="diff-fullscreen-btn" onclick="gAItUI.openUncommittedFullscreenDiff('${this.escapeHtml(change.path)}', ${index})">${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.fullscreen') : 'Fullscreen'}</button>
+                                <button class="diff-wrap-btn active" id="uncommitted-wrap-btn-${index}" onclick="gAItUI.toggleUncommittedWrap(${index})">${this.t('file.wrap', 'Wrap')}</button>
+                                <button class="diff-edit-btn" onclick="gAItUI.toggleUncommittedFileEditor('${this.escapeHtml(change.path)}', ${index})">${this.t('file.edit', 'Edit')}</button>
+                                <button class="diff-fullscreen-btn" onclick="gAItUI.openUncommittedFullscreenDiff('${this.escapeHtml(change.path)}', ${index})">${this.t('file.fullscreen', 'Fullscreen')}</button>
                             </div>
                             <div class="diff-content" id="uncommitted-diff-content-${index}">
-                                <div class="loading">${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.loading_diff') : 'Loading diff...'}</div>
+                                <div class="loading">${this.t('file.loading_diff', 'Loading diff...')}</div>
                             </div>
                         </div>
                     </div>
@@ -2592,11 +2590,11 @@ class GaitUI {
         
         if (isWrapped) {
             wrapBtn.classList.remove('active');
-            wrapBtn.textContent = (typeof i18nManager !== 'undefined') ? i18nManager.t('file.no_wrap') : 'No Wrap';
+            wrapBtn.textContent = this.t('file.no_wrap', 'No Wrap');
             this.applyWrapSetting(diffContent, false);
         } else {
             wrapBtn.classList.add('active');
-            wrapBtn.textContent = (typeof i18nManager !== 'undefined') ? i18nManager.t('file.wrap') : 'Wrap';
+            wrapBtn.textContent = this.t('file.wrap', 'Wrap');
             this.applyWrapSetting(diffContent, true);
         }
     }
@@ -2628,7 +2626,7 @@ class GaitUI {
             const overlay = document.getElementById('fullscreenOverlay');
             const title = document.getElementById('fullscreenTitle');
             
-            title.textContent = `${filePath} - ${(typeof i18nManager !== 'undefined') ? i18nManager.t('commit.uncommitted_changes') : 'Uncommitted Changes'}`;
+            title.textContent = `${filePath} - ${this.t('commit.uncommitted_changes', 'Uncommitted Changes')}`;
             overlay.classList.add('active');
             
             // Render the diff in fullscreen
@@ -2685,18 +2683,18 @@ class GaitUI {
         const editorHtml = `
             <div class="file-editor">
                 <div class="editor-header">
-                    <h4>${(typeof i18nManager !== 'undefined') ? i18nManager.t('editor.editing') : 'Editing'}: ${this.escapeHtml(filePath)}</h4>
+                    <h4>${this.t('editor.editing', 'Editing')}: ${this.escapeHtml(filePath)}</h4>
                     <div class="editor-controls">
-                        <button class="editor-btn secondary" onclick="gAItUI.toggleEditorFullscreen('${this.escapeHtml(filePath)}', ${index})">${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.fullscreen') : 'Fullscreen'}</button>
-                        <button class="editor-btn secondary" onclick="gAItUI.exitUncommittedFileEditor('${this.escapeHtml(filePath)}', ${index})">${(typeof i18nManager !== 'undefined') ? i18nManager.t('editor.cancel') : 'Cancel'}</button>
-                        <button class="editor-btn primary" onclick="gAItUI.saveUncommittedFileContent('${this.escapeHtml(filePath)}', ${index})">${(typeof i18nManager !== 'undefined') ? i18nManager.t('editor.save') : 'Save'}</button>
+                        <button class="editor-btn secondary" onclick="gAItUI.toggleEditorFullscreen('${this.escapeHtml(filePath)}', ${index})">${this.t('file.fullscreen', 'Fullscreen')}</button>
+                        <button class="editor-btn secondary" onclick="gAItUI.exitUncommittedFileEditor('${this.escapeHtml(filePath)}', ${index})">${this.t('editor.cancel', 'Cancel')}</button>
+                        <button class="editor-btn primary" onclick="gAItUI.saveUncommittedFileContent('${this.escapeHtml(filePath)}', ${index})">${this.t('editor.save', 'Save')}</button>
                     </div>
                 </div>
                 <div class="editor-content">
                     <textarea class="file-editor-textarea" id="editor-textarea-${index}" spellcheck="false">${this.escapeHtml(content.join('\n'))}</textarea>
                 </div>
                 <div class="editor-footer">
-                    <span class="editor-info">${(typeof i18nManager !== 'undefined') ? i18nManager.t('editor.footer_inline').replace('{0}', content.length) : `Lines: ${content.length} | Use Ctrl+S to save | Ctrl+F11 for fullscreen`}</span>
+                    <span class="editor-info">${this.t('editor.footer_inline', 'Lines: ${content.length} | Use Ctrl+S to save | Ctrl+F11 for fullscreen', content.length)}</span>
                 </div>
             </div>
         `;
@@ -2775,7 +2773,7 @@ class GaitUI {
         }
         
         // Reset button
-        editBtn.textContent = `✏️ ${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.edit') : 'Edit'}`;
+        editBtn.textContent = `✏️ ${this.t('file.edit', 'Edit')}`;
         editBtn.classList.remove('editing');
         
         this.showStatus('Exited edit mode', 'info');
@@ -2828,7 +2826,7 @@ class GaitUI {
         overlay.className = 'fullscreen-overlay active';
         overlay.innerHTML = `
             <div class="fullscreen-header">
-                <div class="fullscreen-title">${(typeof i18nManager !== 'undefined') ? i18nManager.t('editor.editing') : 'Editing'}: ${this.escapeHtml(filePath)}</div>
+                <div class="fullscreen-title">${this.t('editor.editing', 'Editing')}: ${this.escapeHtml(filePath)}</div>
                 <div class="fullscreen-controls">
                     <button class="editor-btn secondary" onclick="gAItUI.saveFullscreenEditorContent('${this.escapeHtml(filePath)}', ${index})">💾 Save</button>
                     <button class="editor-btn secondary" onclick="gAItUI.exitEditorFullscreen('${this.escapeHtml(filePath)}', ${index})">✕ Exit Fullscreen</button>
@@ -2841,7 +2839,7 @@ class GaitUI {
                 </div>
             </div>
             <div class="fullscreen-editor-footer">
-                <span class="editor-info">${(typeof i18nManager !== 'undefined') ? i18nManager.t('editor.footer_fullscreen').replace('{0}', lines.length) : `Lines: ${lines.length} | Ctrl+S to save | Escape to exit fullscreen`}</span>
+                <span class="editor-info">${this.t('editor.footer_fullscreen', 'Lines: ${lines.length} | Ctrl+S to save | Escape to exit fullscreen', lines.length)}</span>
             </div>
         `;
 
@@ -2877,7 +2875,7 @@ class GaitUI {
                     const currentLines = fullscreenTextarea.value.split('\n');
                     const footerInfo = overlay.querySelector('.editor-info');
                     if (footerInfo) {
-                        footerInfo.textContent = (typeof i18nManager !== 'undefined') ? i18nManager.t('editor.footer_fullscreen').replace('{0}', currentLines.length) : `Lines: ${currentLines.length} | Ctrl+S to save | Escape to exit fullscreen`;
+                        footerInfo.textContent = this.t('editor.footer_fullscreen', 'Lines: ${currentLines.length} | Ctrl+S to save | Escape to exit fullscreen', currentLines.length);
                     }
                     this.updateFullscreenLineNumbers(fullscreenTextarea, lineNumbers);
                 });
@@ -2956,7 +2954,7 @@ class GaitUI {
             const lines = inlineTextarea.value.split('\n');
             const inlineFooter = document.querySelector(`#uncommitted-file-${index} .editor-info`);
             if (inlineFooter) {
-                inlineFooter.textContent = (typeof i18nManager !== 'undefined') ? i18nManager.t('editor.footer_inline').replace('{0}', lines.length) : `Lines: ${lines.length} | Use Ctrl+S to save | Ctrl+F11 for fullscreen`;
+                inlineFooter.textContent = this.t('editor.footer_inline', 'Lines: ${lines.length} | Use Ctrl+S to save | Ctrl+F11 for fullscreen', lines.length);
             }
         }
 
@@ -3386,23 +3384,23 @@ class GaitUI {
 
     // Placeholder methods for advanced dialogs
     showBranchListDialog() {
-        this.showStatus((typeof i18nManager !== 'undefined') ? i18nManager.t('advanced.coming_soon') : 'Advanced branch management coming soon...', 'info');
+        this.showStatus(this.t('advanced.coming_soon', 'Advanced branch management coming soon...'), 'info');
     }
 
     showStashListDialog() {
-        this.showStatus((typeof i18nManager !== 'undefined') ? i18nManager.t('advanced.stash_management') : 'Advanced stash management coming soon...', 'info');
+        this.showStatus(this.t('advanced.stash_management', 'Advanced stash management coming soon...'), 'info');
     }
 
     showTagListDialog() {
-        this.showStatus((typeof i18nManager !== 'undefined') ? i18nManager.t('advanced.tag_management') : 'Advanced tag management coming soon...', 'info');
+        this.showStatus(this.t('advanced.tag_management', 'Advanced tag management coming soon...'), 'info');
     }
 
     showRemoteManagementDialog() {
-        this.showStatus((typeof i18nManager !== 'undefined') ? i18nManager.t('advanced.remote_management') : 'Advanced remote management coming soon...', 'info');
+        this.showStatus(this.t('advanced.remote_management', 'Advanced remote management coming soon...'), 'info');
     }
 
     showCreateBranchFromStashDialog() {
-        this.showStatus((typeof i18nManager !== 'undefined') ? i18nManager.t('advanced.branch_from_stash') : 'Create branch from stash coming soon...', 'info');
+        this.showStatus(this.t('advanced.branch_from_stash', 'Create branch from stash coming soon...'), 'info');
     }
 
     // Commit-level operations
@@ -3540,7 +3538,7 @@ class GaitUI {
             this.showStatus('Uncommitted changes refreshed', 'success');
         } catch (error) {
             console.error('Failed to refresh uncommitted changes:', error);
-            this.showStatus((typeof i18nManager !== 'undefined') ? i18nManager.t('refresh.failed_refresh') : 'Failed to refresh uncommitted changes', 'error');
+            this.showStatus(this.t('refresh.failed_refresh', 'Failed to refresh uncommitted changes'), 'error');
         }
     }
 
@@ -3550,7 +3548,7 @@ class GaitUI {
         if (!diffContent) return;
         
         try {
-            diffContent.innerHTML = `<div class="loading">${(typeof i18nManager !== 'undefined') ? i18nManager.t('file.loading_diff') : 'Loading diff...'}</div>`;
+            diffContent.innerHTML = `<div class="loading">${this.t('file.loading_diff', 'Loading diff...')}</div>`;
             const diff = await gAItAPI.getFileDiff('uncommitted', filePath);
             this.renderUncommittedFileDiff(diff, filePath, index);
         } catch (error) {
@@ -3562,25 +3560,25 @@ class GaitUI {
     // Staging and commit functions
     async stageFile(filePath) {
         try {
-            this.showStatus(`${(typeof i18nManager !== 'undefined') ? i18nManager.t('status.staging_file') : 'Staging'} ${filePath}...`, 'info');
+            this.showStatus(`${this.t('status.staging_file', 'Staging')} ${filePath}...`, 'info');
             await gAItAPI.stageFile(filePath);
-            this.showStatus(`${filePath} ${(typeof i18nManager !== 'undefined') ? i18nManager.t('status.file_staged') : 'staged'}`, 'success');
+            this.showStatus(`${filePath} ${this.t('status.file_staged', 'staged')}`, 'success');
             await this.refreshUncommittedChanges();
         } catch (error) {
             console.error('Failed to stage file:', error);
-            this.showStatus(`${(typeof i18nManager !== 'undefined') ? i18nManager.t('status.failed_stage_file') : 'Failed to stage file'}: ${error.message}`, 'error');
+            this.showStatus(`${this.t('status.failed_stage_file', 'Failed to stage file')}: ${error.message}`, 'error');
         }
     }
 
     async unstageFile(filePath) {
         try {
-            this.showStatus(`${(typeof i18nManager !== 'undefined') ? i18nManager.t('status.unstaging_file') : 'Unstaging'} ${filePath}...`, 'info');
+            this.showStatus(`${this.t('status.unstaging_file', 'Unstaging')} ${filePath}...`, 'info');
             await gAItAPI.unstageFile(filePath);
-            this.showStatus(`${filePath} ${(typeof i18nManager !== 'undefined') ? i18nManager.t('status.file_unstaged') : 'unstaged'}`, 'success');
+            this.showStatus(`${filePath} ${this.t('status.file_unstaged', 'unstaged')}`, 'success');
             await this.refreshUncommittedChanges();
         } catch (error) {
             console.error('Failed to unstage file:', error);
-            this.showStatus(`${(typeof i18nManager !== 'undefined') ? i18nManager.t('status.failed_unstage_file') : 'Failed to unstage file'}: ${error.message}`, 'error');
+            this.showStatus(`${this.t('status.failed_unstage_file', 'Failed to unstage file')}: ${error.message}`, 'error');
         }
     }
 
@@ -3615,12 +3613,12 @@ class GaitUI {
         );
         
         if (unstagedChanges.length === 0) {
-            this.showStatus((typeof i18nManager !== 'undefined') ? i18nManager.t('status.no_unstaged_changes') : 'No unstaged changes to stage', 'info');
+            this.showStatus(this.t('status.no_unstaged_changes', 'No unstaged changes to stage'), 'info');
             return;
         }
 
         try {
-            this.showStatus(`${(typeof i18nManager !== 'undefined') ? i18nManager.t('status.staging_files') : 'Staging files...'} (${unstagedChanges.length})`, 'info');
+            this.showStatus(`${this.t('status.staging_files', 'Staging files...')} (${unstagedChanges.length})`, 'info');
             
             // Stage files sequentially to avoid git conflicts
             for (const change of unstagedChanges) {
@@ -3628,16 +3626,16 @@ class GaitUI {
                     await gAItAPI.stageFile(change.path);
                 } catch (error) {
                     console.error(`Failed to stage file ${change.path}:`, error);
-                    this.showStatus(`${(typeof i18nManager !== 'undefined') ? i18nManager.t('status.failed_stage_file') : 'Failed to stage file'} ${change.path}: ${error.message}`, 'error');
+                    this.showStatus(`${this.t('status.failed_stage_file', 'Failed to stage file')} ${change.path}: ${error.message}`, 'error');
                     return; // Stop on first error
                 }
             }
             
-            this.showStatus(`${unstagedChanges.length} ${(typeof i18nManager !== 'undefined') ? i18nManager.t('status.staged_files') : 'files staged'}`, 'success');
+            this.showStatus(`${unstagedChanges.length} ${this.t('status.staged_files', 'files staged')}`, 'success');
             await this.refreshUncommittedChanges();
         } catch (error) {
             console.error('Failed to stage all changes:', error);
-            this.showStatus(`${(typeof i18nManager !== 'undefined') ? i18nManager.t('status.failed_stage_file') : 'Failed to stage file'}: ${error.message}`, 'error');
+            this.showStatus(`${this.t('status.failed_stage_file', 'Failed to stage file')}: ${error.message}`, 'error');
         }
     }
 
@@ -3648,12 +3646,12 @@ class GaitUI {
         );
         
         if (stagedChanges.length === 0) {
-            this.showStatus((typeof i18nManager !== 'undefined') ? i18nManager.t('status.no_staged_changes') : 'No staged changes to unstage', 'info');
+            this.showStatus(this.t('status.no_staged_changes', 'No staged changes to unstage'), 'info');
             return;
         }
 
         try {
-            this.showStatus(`${(typeof i18nManager !== 'undefined') ? i18nManager.t('status.unstaging_files') : 'Unstaging files...'} (${stagedChanges.length})`, 'info');
+            this.showStatus(`${this.t('status.unstaging_files', 'Unstaging files...')} (${stagedChanges.length})`, 'info');
             
             // Unstage files sequentially to avoid git conflicts
             for (const change of stagedChanges) {
@@ -3661,16 +3659,16 @@ class GaitUI {
                     await gAItAPI.unstageFile(change.path);
                 } catch (error) {
                     console.error(`Failed to unstage file ${change.path}:`, error);
-                    this.showStatus(`${(typeof i18nManager !== 'undefined') ? i18nManager.t('status.failed_unstage_file') : 'Failed to unstage file'} ${change.path}: ${error.message}`, 'error');
+                    this.showStatus(`${this.t('status.failed_unstage_file', 'Failed to unstage file')} ${change.path}: ${error.message}`, 'error');
                     return; // Stop on first error
                 }
             }
             
-            this.showStatus(`${stagedChanges.length} ${(typeof i18nManager !== 'undefined') ? i18nManager.t('status.unstaged_files') : 'files unstaged'}`, 'success');
+            this.showStatus(`${stagedChanges.length} ${this.t('status.unstaged_files', 'files unstaged')}`, 'success');
             await this.refreshUncommittedChanges();
         } catch (error) {
             console.error('Failed to unstage all changes:', error);
-            this.showStatus(`${(typeof i18nManager !== 'undefined') ? i18nManager.t('status.failed_unstage_file') : 'Failed to unstage file'}: ${error.message}`, 'error');
+            this.showStatus(`${this.t('status.failed_unstage_file', 'Failed to unstage file')}: ${error.message}`, 'error');
         }
     }
 

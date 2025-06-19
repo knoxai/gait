@@ -94,7 +94,7 @@ class ModalSystem {
             this.currentReject = reject;
             this.currentModal = 'commit';
             
-            this.title.textContent = options.title || (typeof i18nManager !== 'undefined' ? i18nManager.t('dialog.commit_title') : 'Create Commit');
+            this.title.textContent = options.title || 'Create Commit';
             
             // Load commit dialog template
             const template = document.getElementById('commitDialogTemplate');
@@ -102,9 +102,6 @@ class ModalSystem {
             
             this.body.innerHTML = '';
             this.body.appendChild(content);
-            
-            // Apply translations to the cloned content
-            setTimeout(() => this.applyTranslations(this.body), 0);
             
             // Setup form elements
             const messageTextarea = document.getElementById('commitMessage');
@@ -153,7 +150,7 @@ class ModalSystem {
             autoResize();
             
             // Setup buttons
-            this.confirmBtn.textContent = (typeof i18nManager !== 'undefined' ? i18nManager.t('dialog.commit_title') : 'Create Commit');
+            this.confirmBtn.textContent = 'Create Commit';
             this.confirmBtn.onclick = () => this.handleCommitConfirm();
             
             this.show();
@@ -168,12 +165,12 @@ class ModalSystem {
         
         const message = messageTextarea.value.trim();
         if (!message) {
-            this.showFieldError(messageTextarea, (typeof i18nManager !== 'undefined') ? i18nManager.t('validation.required') : 'This field is required');
+            this.showFieldError(messageTextarea, 'This field is required');
             return;
         }
         
         if (message.length > 500) {
-            this.showFieldError(messageTextarea, (typeof i18nManager !== 'undefined') ? i18nManager.t('validation.too_long') : 'Text is too long');
+            this.showFieldError(messageTextarea, 'Text is too long');
             return;
         }
         
@@ -193,7 +190,7 @@ class ModalSystem {
             this.currentReject = reject;
             this.currentModal = 'input';
             
-            this.title.textContent = options.title || (typeof i18nManager !== 'undefined' ? i18nManager.t('dialog.input_required') : 'Input Required');
+            this.title.textContent = options.title || 'Input Required';
             
             // Load input dialog template
             const template = document.getElementById('inputDialogTemplate');
@@ -238,7 +235,7 @@ class ModalSystem {
             validate();
             
             // Setup buttons
-            this.confirmBtn.textContent = options.confirmText || (typeof i18nManager !== 'undefined' ? i18nManager.t('actions.confirm') : 'OK');
+            this.confirmBtn.textContent = options.confirmText || 'OK';
             this.confirmBtn.onclick = () => this.handleInputConfirm();
             
             this.show();
@@ -261,7 +258,7 @@ class ModalSystem {
             this.currentReject = reject;
             this.currentModal = 'confirm';
             
-            this.title.textContent = options.title || (typeof i18nManager !== 'undefined' ? i18nManager.t('dialog.confirm_action') : 'Confirm Action');
+            this.title.textContent = options.title || 'Confirm Action';
             
             // Load confirmation dialog template
             const template = document.getElementById('confirmDialogTemplate');
@@ -274,7 +271,7 @@ class ModalSystem {
             const messageEl = document.getElementById('confirmMessage');
             const detailsEl = document.getElementById('confirmDetails');
             
-            messageEl.textContent = options.message || (typeof i18nManager !== 'undefined' ? i18nManager.t('dialog.are_you_sure') : 'Are you sure?');
+            messageEl.textContent = options.message || 'Are you sure?';
             
             if (options.details) {
                 detailsEl.textContent = options.details;
@@ -282,8 +279,8 @@ class ModalSystem {
             }
             
             // Setup buttons
-            this.confirmBtn.textContent = options.confirmText || (typeof i18nManager !== 'undefined' ? i18nManager.t('actions.confirm') : 'Confirm');
-            this.cancelBtn.textContent = options.cancelText || (typeof i18nManager !== 'undefined' ? i18nManager.t('actions.cancel') : 'Cancel');
+            this.confirmBtn.textContent = options.confirmText || 'Confirm';
+            this.cancelBtn.textContent = options.cancelText || 'Cancel';
             this.confirmBtn.onclick = () => this.close(true);
             
             this.show();
@@ -298,7 +295,7 @@ class ModalSystem {
             this.currentReject = reject;
             this.currentModal = 'warning';
             
-            this.title.textContent = options.title || (typeof i18nManager !== 'undefined' ? i18nManager.t('dialog.warning') : 'Warning');
+            this.title.textContent = options.title || 'Warning';
             
             // Load warning dialog template
             const template = document.getElementById('warningDialogTemplate');
@@ -311,7 +308,7 @@ class ModalSystem {
             const messageEl = document.getElementById('warningMessage');
             const detailsEl = document.getElementById('warningDetails');
             
-            messageEl.textContent = options.message || (typeof i18nManager !== 'undefined' ? i18nManager.t('dialog.warning') : 'Warning!');
+            messageEl.textContent = options.message || 'Warning!';
             
             if (options.details) {
                 detailsEl.textContent = options.details;
@@ -319,8 +316,8 @@ class ModalSystem {
             }
             
             // Setup buttons
-            this.confirmBtn.textContent = options.confirmText || (typeof i18nManager !== 'undefined' ? i18nManager.t('actions.confirm') : 'Continue');
-            this.cancelBtn.textContent = options.cancelText || (typeof i18nManager !== 'undefined' ? i18nManager.t('actions.cancel') : 'Cancel');
+            this.confirmBtn.textContent = options.confirmText || 'Continue';
+            this.cancelBtn.textContent = options.cancelText || 'Cancel';
             this.confirmBtn.onclick = () => this.close(true);
             
             this.show();
@@ -357,53 +354,6 @@ class ModalSystem {
     
     showLoading(message = 'Loading...') {
         this.body.innerHTML = `<div class="modal-loading">${message}</div>`;
-    }
-    
-    // Apply translations to DOM elements
-    applyTranslations(container) {
-        if (typeof i18nManager === 'undefined') {
-            console.warn('i18nManager is not available');
-            return;
-        }
-        
-        console.log('Applying translations to container:', container);
-        
-        // Find all elements that need translation
-        const elementsToTranslate = container.querySelectorAll('[data-i18n], .form-label, .form-tip, .checkbox-text');
-        
-        console.log('Found elements to translate:', elementsToTranslate.length);
-        
-        elementsToTranslate.forEach(element => {
-            // Handle elements with data-i18n attribute
-            if (element.hasAttribute('data-i18n')) {
-                const key = element.getAttribute('data-i18n');
-                const translated = i18nManager.t(key);
-                console.log('Translating data-i18n:', key, '->', translated);
-                element.textContent = translated;
-                return;
-            }
-            
-            // Handle specific classes and content patterns
-            const text = element.textContent.trim();
-            
-            // Check if text looks like a translation key (contains dots and starts with known prefixes)
-            if (text.includes('.') && (text.startsWith('dialog.') || text.startsWith('validation.') || text.startsWith('actions.'))) {
-                const translated = i18nManager.t(text);
-                console.log('Translating text key:', text, '->', translated);
-                element.textContent = translated;
-            }
-        });
-        
-        // Handle placeholder attributes
-        const elementsWithPlaceholders = container.querySelectorAll('[placeholder]');
-        elementsWithPlaceholders.forEach(element => {
-            const placeholder = element.getAttribute('placeholder');
-            if (placeholder && placeholder.includes('.') && placeholder.startsWith('dialog.')) {
-                const translated = i18nManager.t(placeholder);
-                console.log('Translating placeholder:', placeholder, '->', translated);
-                element.setAttribute('placeholder', translated);
-            }
-        });
     }
 }
 

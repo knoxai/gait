@@ -1,8 +1,0 @@
-{
-  "total_commits": "总提交数",
-  "active_developers": "活跃开发者",
-  "code_quality_score": "代码质量评分",
-  "technical_debt": "技术债务",
-  "commits_per_day": "每日提交数",
-  "current_period": "当前周期"
-} 
