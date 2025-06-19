@@ -135,9 +135,9 @@ class GaitUI {
                     finalHtml += `
                         <li class="commit-item uncommitted-changes" onclick="gAItUI.selectCommit('uncommitted')" data-hash="uncommitted">
                             <div class="commit-hash">⚡</div>
-                                        <div class="commit-message">${this.t('commit.uncommitted_changes', 'Uncommitted Changes')} (${changeCount})</div>
+                                        <div class="commit-message">${'Uncommitted Changes'} (${changeCount})</div>
             <div class="commit-meta">
-                <span class="commit-author">${this.t('commit.working_directory', 'Working Directory')}</span>
+                <span class="commit-author">${'Working Directory'}</span>
                                 <span class="commit-date">Now</span>
                             </div>
                         </li>
@@ -187,9 +187,9 @@ class GaitUI {
             commitsHtml += `
                 <li class="commit-item uncommitted-changes" onclick="gAItUI.selectCommit('uncommitted')" data-hash="uncommitted">
                     <div class="commit-hash">⚡</div>
-                    <div class="commit-message">${this.t('commit.uncommitted_changes', 'Uncommitted Changes')} (${changeCount})</div>
+                    <div class="commit-message">${'Uncommitted Changes'} (${changeCount})</div>
                     <div class="commit-meta">
-                        <span class="commit-author">${this.t('commit.working_directory', 'Working Directory')}</span>
+                        <span class="commit-author">${'Working Directory'}</span>
                         <span class="commit-date">Now</span>
                     </div>
                 </li>
@@ -286,32 +286,32 @@ class GaitUI {
                 <div class="action-menu-body">
                     ${!isCurrent ? `
                         <button class="action-btn primary" onclick="gAItUI.performBranchActionWithButton(event, 'checkout', '${branchName}');">
-                            🔄 ${this.t('branch.checkout', 'Checkout')}
+                            🔄 ${'Checkout'}
                         </button>
                         <button class="action-btn secondary" onclick="gAItUI.performBranchActionWithButton(event, 'merge', '${branchName}');">
-                            🔀 ${this.t('branch.merge_into_current', 'Merge into Current')}
+                            🔀 ${'Merge into Current'}
                         </button>
                         <button class="action-btn secondary" onclick="gAItUI.performBranchActionWithButton(event, 'rebase', '${branchName}');">
-                            🔗 ${this.t('branch.rebase_current', 'Rebase Current onto This')}
+                            🔗 ${'Rebase Current onto This'}
                         </button>
                         <button class="action-btn secondary" onclick="gAItUI.showRenameBranchDialog('${branchName}');">
-                            ✏️ ${this.t('branch.rename', 'Rename Branch')}
+                            ✏️ ${'Rename Branch'}
                         </button>
                         <button class="action-btn danger" onclick="gAItUI.performBranchActionWithButton(event, 'delete', '${branchName}');">
-                            🗑️ ${this.t('branch.delete', 'Delete Branch')}
+                            🗑️ ${'Delete Branch'}
                         </button>
                     ` : `
                         <button class="action-btn secondary" onclick="gAItUI.showCreateBranchDialog('${branchName}');">
-                            ➕ ${this.t('branch.create_new', 'Create New Branch')}
+                            ➕ ${'Create New Branch'}
                         </button>
                         <button class="action-btn secondary" onclick="gAItUI.showRenameBranchDialog('${branchName}');">
-                            ✏️ ${this.t('branch.rename_current', 'Rename Current Branch')}
+                            ✏️ ${'Rename Current Branch'}
                         </button>
                         <button class="action-btn secondary" onclick="gAItUI.showResetBranchDialog('${branchName}');">
-                            ↩️ ${this.t('branch.reset', 'Reset Branch')}
+                            ↩️ ${'Reset Branch'}
                         </button>
                         <button class="action-btn secondary" onclick="gAItUI.showRebaseBranchDialog('${branchName}');">
-                            🔗 ${this.t('branch.rebase', 'Rebase Branch')}
+                            🔗 ${'Rebase Branch'}
                         </button>
                     `}
                 </div>
@@ -371,7 +371,7 @@ class GaitUI {
                     </div>
                     ${!isCurrent ? `
                                             <button class="action-btn primary" onclick="gAItUI.exitTagModeAndCheckoutBranch('${branchName}')">
-                        🔄 ${this.t('branch.exit_tag_checkout', 'Exit Tag Mode & Checkout')} ${this.escapeHtml(branchName)}
+                        🔄 ${'Exit Tag Mode & Checkout'} ${this.escapeHtml(branchName)}
                     </button>
                         <button class="action-btn secondary" onclick="gAItUI.exitTagMode()">
                             🏷️ Exit Tag Mode (Stay on Current Branch)
@@ -381,7 +381,7 @@ class GaitUI {
                             🏷️ Exit Tag Mode (Return to ${this.escapeHtml(branchName)})
                         </button>
                         <button class="action-btn secondary" onclick="gAItUI.showCreateBranchDialog('${branchName}')">
-                            ➕ ${this.t('branch.create_new', 'Create New Branch')}
+                            ➕ ${'Create New Branch'}
                         </button>
                     `}
                 </div>
@@ -399,13 +399,13 @@ class GaitUI {
         const existingMenu = document.querySelector('.action-menu');
         if (existingMenu) existingMenu.remove();
 
-        const fromText = startPoint ? this.t('dialog.create_branch_from', startPoint) : '';
+        const fromText = startPoint ? 'Create branch from {0}'.replace(/\{0\}/g, startPoint) : '';
         try {
             const branchName = await showInputDialog({
-                title: this.t('dialog.create_branch_title'),
-                label: this.t('dialog.branch_name'),
+                title: 'Create New Branch',
+                label: 'Branch Name',
                 placeholder: 'feature/new-branch',
-                tip: this.t('dialog.branch_name_tip'),
+                tip: 'Use lowercase letters, numbers, hyphens, and slashes',
                 required: true,
                 pattern: /^[a-zA-Z0-9._/-]+$/
             });
@@ -470,11 +470,11 @@ class GaitUI {
                 case 'delete':
                     try {
                         const confirmDelete = await showWarningDialog({
-                            title: this.t('dialog.delete_branch_title'),
-                            message: this.t('dialog.delete_branch_confirm', branchName),
-                            details: this.t('dialog.delete_branch_warning'),
-                            confirmText: this.t('actions.delete'),
-                            cancelText: this.t('actions.cancel')
+                            title: 'Delete Branch',
+                            message: 'Are you sure you want to delete branch "{0}"?'.replace(/\{0\}/g, branchName),
+                            details: 'This action cannot be undone.',
+                            confirmText: 'Delete',
+                            cancelText: 'Cancel'
                         });
                         
                         if (confirmDelete) {
@@ -485,11 +485,11 @@ class GaitUI {
                             } catch (error) {
                                 if (error.message.includes('not fully merged')) {
                                     const forceDelete = await showWarningDialog({
-                                        title: this.t('dialog.force_delete_title'),
-                                        message: this.t('dialog.delete_branch_force', branchName),
-                                        details: this.t('dialog.force_delete_warning'),
-                                        confirmText: this.t('actions.force_delete'),
-                                        cancelText: this.t('actions.cancel')
+                                        title: 'Force Delete Branch',
+                                        message: 'Force delete branch "{0}"?'.replace(/\{0\}/g, branchName),
+                                        details: 'This will force delete the branch even if it has unmerged changes.',
+                                        confirmText: 'Force Delete',
+                                        cancelText: 'Cancel'
                                     });
                                     
                                     if (forceDelete) {
@@ -516,7 +516,7 @@ class GaitUI {
                     break;
 
                 case 'merge':
-                    const noFastForward = confirm(this.t('dialog.merge_branch', branchName));
+                    const noFastForward = confirm('Merge branch "{0}" into current branch?'.replace(/\{0\}/g, branchName));
                     this.showStatus(`Merging ${branchName}...`, 'info');
                     await gAItAPI.mergeBranch(branchName, noFastForward);
                     this.showStatus(`Branch ${branchName} merged successfully`, 'success');
@@ -526,7 +526,7 @@ class GaitUI {
                     break;
 
                 case 'rebase':
-                    const interactive = confirm(this.t('dialog.rebase_branch', branchName));
+                    const interactive = confirm('Rebase current branch onto "{0}"?'.replace(/\{0\}/g, branchName));
                     this.showStatus(`Rebasing onto ${branchName}...`, 'info');
                     await gAItAPI.rebaseBranch(branchName, interactive);
                     this.showStatus(`Successfully rebased onto ${branchName}`, 'success');
@@ -591,7 +591,7 @@ class GaitUI {
     renderTags(tags) {
         const list = document.getElementById('tagsList');
         if (!Array.isArray(tags) || tags.length === 0) {
-            list.innerHTML = `<li class="loading">${this.t('sidebar.no_tags', 'No tags found')}</li>`;
+            list.innerHTML = `<li class="loading">${'No tags found'}</li>`;
             return;
         }
         list.innerHTML = tags.map(tag => `
@@ -605,7 +605,7 @@ class GaitUI {
     renderStashes(stashes) {
         const list = document.getElementById('stashesList');
         if (!Array.isArray(stashes) || stashes.length === 0) {
-            list.innerHTML = `<li class="loading">${this.t('sidebar.no_stashes', 'No stashes found')}</li>`;
+            list.innerHTML = `<li class="loading">${'No stashes found'}</li>`;
             return;
         }
         list.innerHTML = stashes.map(stash => `
@@ -619,7 +619,7 @@ class GaitUI {
     renderRemotes(remotes) {
         const list = document.getElementById('remotesList');
         if (!Array.isArray(remotes) || remotes.length === 0) {
-            list.innerHTML = `<li class="loading">${this.t('sidebar.no_remotes', 'No remotes found')}</li>`;
+            list.innerHTML = `<li class="loading">${'No remotes found'}</li>`;
             return;
         }
         list.innerHTML = remotes.map(remote => `
@@ -655,7 +655,7 @@ class GaitUI {
             return;
         }
         
-                    this.showStatus(this.t('status.loading_commit_details', 'Loading commit details...'), 'info');
+                    this.showStatus('Loading commit details...', 'info');
         
         try {
             const commit = await gAItAPI.getCommitDetails(hash);
@@ -663,8 +663,8 @@ class GaitUI {
             this.showStatus('Commit details loaded', 'success');
         } catch (error) {
             document.getElementById('detailsContent').innerHTML = 
-                `<div class="error">${this.t('error.failed_load_commit', 'Failed to load commit details')}: ${error.message}</div>`;
-            this.showStatus(this.t('error.failed_load_commit', 'Failed to load commit details'), 'error');
+                `<div class="error">${'Failed to load commit details'}: ${error.message}</div>`;
+            this.showStatus('Failed to load commit details', 'error');
         }
     }
 
@@ -672,7 +672,7 @@ class GaitUI {
         const title = document.getElementById('detailsTitle');
         const content = document.getElementById('detailsContent');
         
-        title.textContent = `${this.t('commit.details', 'Commit')} ${commit.shortHash}`;
+        title.textContent = `${'Commit'} ${commit.shortHash}`;
         
         let totalAdditions = 0;
         let totalDeletions = 0;
@@ -689,36 +689,36 @@ class GaitUI {
         let html = `
             <div class="commit-info">
                 <h3>${this.escapeHtml(commit.message)}</h3>
-                <div class="meta">${this.t('commit.author', 'Author')}: ${this.escapeHtml(commit.author.name)} &lt;${this.escapeHtml(commit.author.email)}&gt;</div>
-                <div class="meta">${this.t('commit.date', 'Date')}: ${this.formatDate(commit.date)}</div>
-                <div class="meta">${this.t('commit.hash', 'Hash')}: <code>${commit.hash}</code></div>
+                <div class="meta">${'Author'}: ${this.escapeHtml(commit.author.name)} &lt;${this.escapeHtml(commit.author.email)}&gt;</div>
+                <div class="meta">${'Date'}: ${this.formatDate(commit.date)}</div>
+                <div class="meta">${'Hash'}: <code>${commit.hash}</code></div>
                 ${commit.parents && commit.parents.length > 0 ? 
-                    `<div class="meta">${this.t('commit.parents', 'Parents')}: ${commit.parents.map(p => `<code>${p.substring(0, 7)}</code>`).join(', ')}</div>` : ''}
+                    `<div class="meta">${'Parents'}: ${commit.parents.map(p => `<code>${p.substring(0, 7)}</code>`).join(', ')}</div>` : ''}
                 ${filesChanged > 0 ? `
                     <div class="commit-stats">
-                        <span class="files-changed">${filesChanged} ${filesChanged !== 1 ? this.t('commit.files_changed', 'files changed') : this.t('commit.file_changed', 'file changed')}</span>
+                        <span class="files-changed">${filesChanged} ${filesChanged !== 1 ? 'files changed' : 'file changed'}</span>
                         ${totalAdditions > 0 ? `<span class="total-additions">+${totalAdditions}</span>` : ''}
                         ${totalDeletions > 0 ? `<span class="total-deletions">-${totalDeletions}</span>` : ''}
                     </div>
                 ` : ''}
                 <div class="commit-actions">
                     <button class="action-btn secondary" onclick="gAItUI.performCommitAction('cherry-pick', '${commit.hash}')" title="Cherry-pick this commit">
-                        🍒 ${this.t('commit.cherry_pick_action', 'Cherry-pick')}
+                        🍒 ${'Cherry-pick'}
                     </button>
                     <button class="action-btn secondary" onclick="gAItUI.performCommitAction('revert', '${commit.hash}')" title="Revert this commit">
-                        ↩️ ${this.t('commit.revert_action', 'Revert')}
+                        ↩️ ${'Revert'}
                     </button>
                     <button class="action-btn secondary" onclick="gAItUI.performCommitAction('reset', '${commit.hash}')" title="Reset current branch to this commit">
-                        🎯 ${this.t('commit.reset_to_here', 'Reset to Here')}
+                        🎯 ${'Reset to Here'}
                     </button>
                     <button class="action-btn secondary" onclick="gAItUI.performCommitAction('create-tag', '${commit.hash}')" title="Create tag at this commit">
-                        🏷️ ${this.t('commit.create_tag', 'Tag')}
+                        🏷️ ${'Tag'}
                     </button>
                     <button class="action-btn secondary" onclick="gAItUI.performCommitAction('create-branch', '${commit.hash}')" title="Create branch from this commit">
-                        🌿 ${this.t('commit.create_branch', 'Branch')}
+                        🌿 ${'Branch'}
                     </button>
                     <button class="action-btn secondary" onclick="gAItClipboard.copyCommitHash('${commit.hash}')" title="Copy commit hash">
-                        📋 ${this.t('commit.copy_hash', 'Copy Hash')}
+                        📋 ${'Copy Hash'}
                     </button>
                 </div>
             </div>
@@ -736,10 +736,10 @@ class GaitUI {
             
             html += `
                 <div class="file-changes">
-                    <h4>${this.t('commit.changed_files', 'Changed Files')} (${commit.fileChanges.length})
+                    <h4>${'Changed Files'} (${commit.fileChanges.length})
                         <div class="file-tree-controls">
-                            <button class="tree-control-btn" onclick="gAItUI.expandAllDirectories()" title="${this.t('file.expand_all', 'Expand all directories')}">📁</button>
-                            <button class="tree-control-btn" onclick="gAItUI.collapseAllDirectories()" title="${this.t('file.collapse_all', 'Collapse all directories')}">📂</button>
+                            <button class="tree-control-btn" onclick="gAItUI.expandAllDirectories()" title="${'Expand all directories'}">📁</button>
+                            <button class="tree-control-btn" onclick="gAItUI.collapseAllDirectories()" title="${'Collapse all directories'}">📂</button>
                         </div>
                     </h4>
                     <div class="file-tree">
@@ -807,14 +807,14 @@ class GaitUI {
                         <div class="file-diff" id="diff-${index}">
                             <div class="diff-controls">
                                 <div class="diff-view-toggle">
-                                    <button class="diff-view-btn active" onclick="gAItUI.switchDiffView(${index}, 'split')">${this.t('file.split_view', 'Split')}</button>
-                                    <button class="diff-view-btn" onclick="gAItUI.switchDiffView(${index}, 'unified')">${this.t('file.unified_view', 'Unified')}</button>
+                                    <button class="diff-view-btn active" onclick="gAItUI.switchDiffView(${index}, 'split')">${'Split'}</button>
+                                    <button class="diff-view-btn" onclick="gAItUI.switchDiffView(${index}, 'unified')">${'Unified'}</button>
                                 </div>
-                                <button class="diff-wrap-btn active" id="wrap-btn-${index}" onclick="gAItDiffViewer.toggleWrap(${index})">${this.t('file.wrap', 'Wrap')}</button>
-                                <button class="diff-fullscreen-btn" onclick="gAItDiffViewer.openFullscreenDiff('${commitHash}', '${this.escapeHtml(file.path)}', ${index})">${this.t('file.fullscreen', 'Fullscreen')}</button>
+                                <button class="diff-wrap-btn active" id="wrap-btn-${index}" onclick="gAItDiffViewer.toggleWrap(${index})">${'Wrap'}</button>
+                                <button class="diff-fullscreen-btn" onclick="gAItDiffViewer.openFullscreenDiff('${commitHash}', '${this.escapeHtml(file.path)}', ${index})">${'Fullscreen'}</button>
                             </div>
                             <div class="diff-content" id="diff-content-${index}">
-                                <div class="loading">${this.t('file.loading_diff', 'Loading diff...')}</div>
+                                <div class="loading">${'Loading diff...'}</div>
                             </div>
                         </div>
                     </div>
@@ -1133,7 +1133,7 @@ class GaitUI {
             this.showStatus(`Loading diff for ${filePath}...`, 'info');
             
             try {
-                diffContent.innerHTML = `<div class="loading">${this.t('file.loading_diff', 'Loading diff...')}</div>`;
+                diffContent.innerHTML = `<div class="loading">${'Loading diff...'}</div>`;
                 const diff = await gAItAPI.getFileDiff('uncommitted', filePath);
                 console.log(`Diff loaded for ${filePath}:`, diff);
                 
@@ -1325,7 +1325,7 @@ class GaitUI {
         try {
             switch (action) {
                 case 'delete':
-                    if (confirm(this.t('dialog.delete_tag_confirm', tagName))) {
+                    if (confirm('Are you sure you want to delete tag "{0}"?'.replace(/\{0\}/g, tagName))) {
                         this.showStatus(`Deleting tag ${tagName}...`, 'info');
                         await gAItAPI.deleteTag(tagName);
                         this.showStatus(`Tag ${tagName} deleted successfully`, 'success');
@@ -1350,7 +1350,7 @@ class GaitUI {
                     }
                     
                     const remoteName = remotes.length === 1 ? remotes[0].name : 
-                        prompt(this.t('dialog.push_tag', tagName, remotes.map(r => r.name).join(', '))) || 'origin';
+                        prompt(`Push tag "${tagName}" to remote (${remotes.map(r => r.name).join(', ')})?`) || 'origin';
                     
                     this.showStatus(`Pushing tag ${tagName} to ${remoteName}...`, 'info');
                     await gAItAPI.pushTag(tagName, remoteName);
@@ -1732,7 +1732,7 @@ class GaitUI {
                     break;
 
                 case 'drop':
-                    if (confirm(this.t('dialog.delete_stash_confirm', index))) {
+                    if (confirm('Are you sure you want to delete stash #{0}?'.replace(/\{0\}/g, index))) {
                         this.showStatus(`Dropping stash ${index}...`, 'info');
                         await gAItAPI.dropStash(index);
                         this.showStatus(`Stash ${index} dropped successfully`, 'success');
@@ -2209,15 +2209,15 @@ class GaitUI {
         const title = document.getElementById('detailsTitle');
         const content = document.getElementById('detailsContent');
         
-        title.textContent = this.t('commit.uncommitted_changes', 'Uncommitted Changes');
+        title.textContent = 'Uncommitted Changes';
         
         const changes = this.currentData.uncommittedChanges || [];
         
         if (changes.length === 0) {
             content.innerHTML = `
                 <div class="commit-info">
-                    <h3>${this.t('commit.no_uncommitted', 'No Uncommitted Changes')}</h3>
-                    <div class="meta">${this.t('commit.working_clean', 'Working directory is clean')}</div>
+                    <h3>${'No Uncommitted Changes'}</h3>
+                    <div class="meta">${'Working directory is clean'}</div>
                 </div>
             `;
             return;
@@ -2241,36 +2241,36 @@ class GaitUI {
         
         let html = `
             <div class="commit-info">
-                <h3>${this.t('commit.uncommitted', 'Uncommitted Changes')}</h3>
-                <div class="meta">${this.t('commit.displaying', 'Displaying all uncommitted changes')}.</div>
+                <h3>${'Uncommitted Changes'}</h3>
+                <div class="meta">${'Displaying all uncommitted changes'}.</div>
                 <div class="commit-stats">
-                    <span class="files-changed">${filesChanged} ${filesChanged !== 1 ? this.t('commit.files_changed', 'files changed') : this.t('commit.file_changed', 'file changed')}</span>
+                    <span class="files-changed">${filesChanged} ${filesChanged !== 1 ? 'files changed' : 'file changed'}</span>
                     ${totalAdditions > 0 ? `<span class="total-additions">+${totalAdditions}</span>` : ''}
                     ${totalDeletions > 0 ? `<span class="total-deletions">-${totalDeletions}</span>` : ''}
                 </div>
                 <div class="commit-stats">
-                    ${stagedChanges.length > 0 ? `<span class="staged-count">${stagedChanges.length} ${this.t('file.status.staged', 'staged')}</span>` : ''}
-                    ${unstagedChanges.length > 0 ? `<span class="unstaged-count">${unstagedChanges.length} ${this.t('file.status.unstaged', 'unstaged')}</span>` : ''}
-                    ${untrackedFiles.length > 0 ? `<span class="untracked-count">${untrackedFiles.length} ${this.t('file.status.untracked', 'untracked')}</span>` : ''}
+                    ${stagedChanges.length > 0 ? `<span class="staged-count">${stagedChanges.length} ${'staged'}</span>` : ''}
+                    ${unstagedChanges.length > 0 ? `<span class="unstaged-count">${unstagedChanges.length} ${'unstaged'}</span>` : ''}
+                    ${untrackedFiles.length > 0 ? `<span class="untracked-count">${untrackedFiles.length} ${'untracked'}</span>` : ''}
                 </div>
                 <div class="commit-actions">
                     ${stagedChanges.length > 0 ? `
                         <button class="action-btn primary" onclick="gAItUI.showCommitDialog()" title="Create commit with staged changes">
-                            💾 ${this.t('commit.commit_staged', 'Commit Staged Changes')}
+                            💾 ${'Commit Staged Changes'}
                         </button>
                     ` : ''}
                     ${unstagedChanges.length > 0 || untrackedFiles.length > 0 ? `
                         <button class="action-btn secondary" onclick="gAItUI.stageAllChanges()" title="Stage all changes for commit">
-                            ➕ ${this.t('commit.stage_all', 'Stage All Changes')}
+                            ➕ ${'Stage All Changes'}
                         </button>
                     ` : ''}
                     ${stagedChanges.length > 0 ? `
                                         <button class="action-btn secondary" onclick="gAItUI.unstageAllChanges()" title="Unstage all changes">
-                    ➖ ${this.t('commit.unstage_all', 'Unstage All Changes')}
+                    ➖ ${'Unstage All Changes'}
                         </button>
                     ` : ''}
-                    <button class="action-btn secondary" onclick="gAItUI.refreshUncommittedChanges()" title="${this.t('refresh.title', 'Refresh uncommitted changes')}">
-                        🔄 ${this.t('action.refresh', 'Refresh')}
+                    <button class="action-btn secondary" onclick="gAItUI.refreshUncommittedChanges()" title="${'Refresh uncommitted changes'}">
+                        🔄 ${'Refresh'}
                     </button>
                 </div>
             </div>
@@ -2282,7 +2282,7 @@ class GaitUI {
         // Create file tree structure
         html += `
             <div class="file-changes">
-                <h4>${this.t('commit.changed_files', 'Changed Files')} (${changes.length})
+                <h4>${'Changed Files'} (${changes.length})
                     <div class="file-tree-controls">
                         <button class="tree-control-btn" onclick="gAItUI.expandAllDirectories()" title="Expand all directories">📁</button>
                         <button class="tree-control-btn" onclick="gAItUI.collapseAllDirectories()" title="Collapse all directories">📂</button>
@@ -2419,7 +2419,7 @@ class GaitUI {
                                     </button>
                                 `}
                                 ${!change.status.startsWith('staged-') ? `
-                                    <button class="file-action-btn discard" onclick="gAItUI.discardFileChanges('${this.escapeHtml(change.path)}')" title="${this.t('commit.discard_changes', 'Discard changes')}"
+                                    <button class="file-action-btn discard" onclick="gAItUI.discardFileChanges('${this.escapeHtml(change.path)}')" title="${'Discard changes'}"
                                         🗑️
                                     </button>
                                 ` : ''}
@@ -2428,15 +2428,15 @@ class GaitUI {
                         <div class="file-diff" id="uncommitted-diff-${index}">
                             <div class="diff-controls">
                                 <div class="diff-view-toggle">
-                                    <button class="diff-view-btn active" onclick="gAItUI.switchUncommittedDiffView(${index}, 'split')">${this.t('file.split_view', 'Split')}</button>
-                                    <button class="diff-view-btn" onclick="gAItUI.switchUncommittedDiffView(${index}, 'unified')">${this.t('file.unified_view', 'Unified')}</button>
+                                    <button class="diff-view-btn active" onclick="gAItUI.switchUncommittedDiffView(${index}, 'split')">${'Split'}</button>
+                                    <button class="diff-view-btn" onclick="gAItUI.switchUncommittedDiffView(${index}, 'unified')">${'Unified'}</button>
                                 </div>
-                                <button class="diff-wrap-btn active" id="uncommitted-wrap-btn-${index}" onclick="gAItUI.toggleUncommittedWrap(${index})">${this.t('file.wrap', 'Wrap')}</button>
-                                <button class="diff-edit-btn" onclick="gAItUI.toggleUncommittedFileEditor('${this.escapeHtml(change.path)}', ${index})">${this.t('file.edit', 'Edit')}</button>
-                                <button class="diff-fullscreen-btn" onclick="gAItUI.openUncommittedFullscreenDiff('${this.escapeHtml(change.path)}', ${index})">${this.t('file.fullscreen', 'Fullscreen')}</button>
+                                <button class="diff-wrap-btn active" id="uncommitted-wrap-btn-${index}" onclick="gAItUI.toggleUncommittedWrap(${index})">${'Wrap'}</button>
+                                <button class="diff-edit-btn" onclick="gAItUI.toggleUncommittedFileEditor('${this.escapeHtml(change.path)}', ${index})">${'Edit'}</button>
+                                <button class="diff-fullscreen-btn" onclick="gAItUI.openUncommittedFullscreenDiff('${this.escapeHtml(change.path)}', ${index})">${'Fullscreen'}</button>
                             </div>
                             <div class="diff-content" id="uncommitted-diff-content-${index}">
-                                <div class="loading">${this.t('file.loading_diff', 'Loading diff...')}</div>
+                                <div class="loading">${'Loading diff...'}</div>
                             </div>
                         </div>
                     </div>
@@ -2590,11 +2590,11 @@ class GaitUI {
         
         if (isWrapped) {
             wrapBtn.classList.remove('active');
-            wrapBtn.textContent = this.t('file.no_wrap', 'No Wrap');
+            wrapBtn.textContent = 'No Wrap';
             this.applyWrapSetting(diffContent, false);
         } else {
             wrapBtn.classList.add('active');
-            wrapBtn.textContent = this.t('file.wrap', 'Wrap');
+            wrapBtn.textContent = 'Wrap';
             this.applyWrapSetting(diffContent, true);
         }
     }
@@ -2626,7 +2626,7 @@ class GaitUI {
             const overlay = document.getElementById('fullscreenOverlay');
             const title = document.getElementById('fullscreenTitle');
             
-            title.textContent = `${filePath} - ${this.t('commit.uncommitted_changes', 'Uncommitted Changes')}`;
+            title.textContent = `${filePath} - ${'Uncommitted Changes'}`;
             overlay.classList.add('active');
             
             // Render the diff in fullscreen
@@ -2683,18 +2683,18 @@ class GaitUI {
         const editorHtml = `
             <div class="file-editor">
                 <div class="editor-header">
-                    <h4>${this.t('editor.editing', 'Editing')}: ${this.escapeHtml(filePath)}</h4>
+                    <h4>${'Editing'}: ${this.escapeHtml(filePath)}</h4>
                     <div class="editor-controls">
-                        <button class="editor-btn secondary" onclick="gAItUI.toggleEditorFullscreen('${this.escapeHtml(filePath)}', ${index})">${this.t('file.fullscreen', 'Fullscreen')}</button>
-                        <button class="editor-btn secondary" onclick="gAItUI.exitUncommittedFileEditor('${this.escapeHtml(filePath)}', ${index})">${this.t('editor.cancel', 'Cancel')}</button>
-                        <button class="editor-btn primary" onclick="gAItUI.saveUncommittedFileContent('${this.escapeHtml(filePath)}', ${index})">${this.t('editor.save', 'Save')}</button>
+                        <button class="editor-btn secondary" onclick="gAItUI.toggleEditorFullscreen('${this.escapeHtml(filePath)}', ${index})">${'Fullscreen'}</button>
+                        <button class="editor-btn secondary" onclick="gAItUI.exitUncommittedFileEditor('${this.escapeHtml(filePath)}', ${index})">${'Cancel'}</button>
+                        <button class="editor-btn primary" onclick="gAItUI.saveUncommittedFileContent('${this.escapeHtml(filePath)}', ${index})">${'Save'}</button>
                     </div>
                 </div>
                 <div class="editor-content">
                     <textarea class="file-editor-textarea" id="editor-textarea-${index}" spellcheck="false">${this.escapeHtml(content.join('\n'))}</textarea>
                 </div>
                 <div class="editor-footer">
-                    <span class="editor-info">${this.t('editor.footer_inline', 'Lines: ${content.length} | Use Ctrl+S to save | Ctrl+F11 for fullscreen', content.length)}</span>
+                    <span class="editor-info">${'Lines: {0} | Use Ctrl+S to save | Ctrl+F11 for fullscreen'.replace(/\{0\}/g, content.length)}</span>
                 </div>
             </div>
         `;
@@ -2773,7 +2773,7 @@ class GaitUI {
         }
         
         // Reset button
-        editBtn.textContent = `✏️ ${this.t('file.edit', 'Edit')}`;
+        editBtn.textContent = `✏️ ${'Edit'}`;
         editBtn.classList.remove('editing');
         
         this.showStatus('Exited edit mode', 'info');
@@ -2826,7 +2826,7 @@ class GaitUI {
         overlay.className = 'fullscreen-overlay active';
         overlay.innerHTML = `
             <div class="fullscreen-header">
-                <div class="fullscreen-title">${this.t('editor.editing', 'Editing')}: ${this.escapeHtml(filePath)}</div>
+                <div class="fullscreen-title">${'Editing'}: ${this.escapeHtml(filePath)}</div>
                 <div class="fullscreen-controls">
                     <button class="editor-btn secondary" onclick="gAItUI.saveFullscreenEditorContent('${this.escapeHtml(filePath)}', ${index})">💾 Save</button>
                     <button class="editor-btn secondary" onclick="gAItUI.exitEditorFullscreen('${this.escapeHtml(filePath)}', ${index})">✕ Exit Fullscreen</button>
@@ -2839,7 +2839,7 @@ class GaitUI {
                 </div>
             </div>
             <div class="fullscreen-editor-footer">
-                <span class="editor-info">${this.t('editor.footer_fullscreen', 'Lines: ${lines.length} | Ctrl+S to save | Escape to exit fullscreen', lines.length)}</span>
+                <span class="editor-info">${'Lines: {0} | Ctrl+S to save | Escape to exit fullscreen'.replace(/\{0\}/g, lines.length)}</span>
             </div>
         `;
 
@@ -2875,7 +2875,7 @@ class GaitUI {
                     const currentLines = fullscreenTextarea.value.split('\n');
                     const footerInfo = overlay.querySelector('.editor-info');
                     if (footerInfo) {
-                        footerInfo.textContent = this.t('editor.footer_fullscreen', 'Lines: ${currentLines.length} | Ctrl+S to save | Escape to exit fullscreen', currentLines.length);
+                        footerInfo.textContent = 'Lines: {0} | Ctrl+S to save | Escape to exit fullscreen'.replace(/\{0\}/g, currentLines.length);
                     }
                     this.updateFullscreenLineNumbers(fullscreenTextarea, lineNumbers);
                 });
@@ -2954,7 +2954,7 @@ class GaitUI {
             const lines = inlineTextarea.value.split('\n');
             const inlineFooter = document.querySelector(`#uncommitted-file-${index} .editor-info`);
             if (inlineFooter) {
-                inlineFooter.textContent = this.t('editor.footer_inline', 'Lines: ${lines.length} | Use Ctrl+S to save | Ctrl+F11 for fullscreen', lines.length);
+                inlineFooter.textContent = 'Lines: {0} | Use Ctrl+S to save | Ctrl+F11 for fullscreen'.replace(/\{0\}/g, lines.length);
             }
         }
 
@@ -3009,21 +3009,21 @@ class GaitUI {
                 menuContent = `
                     <div class="action-menu-content">
                         <div class="action-menu-header">
-                            <h4>🌿 ${this.t('git.branch_operations')}</h4>
+                            <h4>🌿 ${'Branch Operations'}</h4>
                             <button class="action-menu-close" onclick="gAItUI.closeAllMenus()">✕</button>
                         </div>
                         <div class="action-menu-body">
                             <button class="action-btn primary" onclick="gAItUI.showCreateBranchDialog(); gAItUI.closeAllMenus();">
-                                ➕ ${this.t('git.create_new_branch')}
+                                ➕ ${'Create New Branch'}
                             </button>
                             <button class="action-btn secondary" onclick="gAItUI.showBranchListDialog(); gAItUI.closeAllMenus();">
-                                📋 ${this.t('git.manage_branches')}
+                                📋 ${'Manage Branches'}
                             </button>
                             <button class="action-btn secondary" onclick="gAItUI.showRebaseBranchDialog(); gAItUI.closeAllMenus();">
-                                🔗 ${this.t('git.rebase_current_branch')}
+                                🔗 ${'Rebase Current Branch'}
                             </button>
                             <button class="action-btn secondary" onclick="gAItUI.showResetBranchDialog(); gAItUI.closeAllMenus();">
-                                ↩️ ${this.t('git.reset_current_branch')}
+                                ↩️ ${'Reset Current Branch'}
                             </button>
                         </div>
                     </div>
@@ -3034,21 +3034,21 @@ class GaitUI {
                 menuContent = `
                     <div class="action-menu-content">
                         <div class="action-menu-header">
-                            <h4>🌐 ${this.t('git.remote_operations')}</h4>
+                            <h4>🌐 ${'Remote Operations'}</h4>
                             <button class="action-menu-close" onclick="gAItUI.closeAllMenus()">✕</button>
                         </div>
                         <div class="action-menu-body">
                             <button class="action-btn primary" onclick="gAItUI.performQuickOperation('fetch'); gAItUI.closeAllMenus();">
-                                📥 ${this.t('git.fetch_all_remotes')}
+                                📥 ${'Fetch All Remotes'}
                             </button>
                             <button class="action-btn secondary" onclick="gAItUI.showPullDialog(); gAItUI.closeAllMenus();">
-                                ⬇️ ${this.t('git.pull_from_remote')}
+                                ⬇️ ${'Pull from Remote'}
                             </button>
                             <button class="action-btn secondary" onclick="gAItUI.showPushDialog(); gAItUI.closeAllMenus();">
-                                ⬆️ ${this.t('git.push_to_remote')}
+                                ⬆️ ${'Push to Remote'}
                             </button>
                             <button class="action-btn secondary" onclick="gAItUI.showRemoteManagementDialog(); gAItUI.closeAllMenus();">
-                                🔧 ${this.t('git.manage_remotes')}
+                                🔧 ${'Manage Remotes'}
                             </button>
                         </div>
                     </div>
@@ -3059,18 +3059,18 @@ class GaitUI {
                 menuContent = `
                     <div class="action-menu-content">
                         <div class="action-menu-header">
-                            <h4>📦 ${this.t('git.stash_operations')}</h4>
+                            <h4>📦 ${'Stash Operations'}</h4>
                             <button class="action-menu-close" onclick="gAItUI.closeAllMenus()">✕</button>
                         </div>
                         <div class="action-menu-body">
                             <button class="action-btn primary" onclick="gAItUI.showCreateStashDialog(); gAItUI.closeAllMenus();">
-                                💾 ${this.t('git.create_stash')}
+                                💾 ${'Create Stash'}
                             </button>
                             <button class="action-btn secondary" onclick="gAItUI.showStashListDialog(); gAItUI.closeAllMenus();">
-                                📋 ${this.t('git.manage_stashes')}
+                                📋 ${'Manage Stashes'}
                             </button>
                             <button class="action-btn secondary" onclick="gAItUI.showCreateBranchFromStashDialog(); gAItUI.closeAllMenus();">
-                                🌿 ${this.t('git.create_branch_from_stash')}
+                                🌿 ${'Create Branch from Stash'}
                             </button>
                         </div>
                     </div>
@@ -3081,18 +3081,18 @@ class GaitUI {
                 menuContent = `
                     <div class="action-menu-content">
                         <div class="action-menu-header">
-                            <h4>🏷️ ${this.t('git.tag_operations')}</h4>
+                            <h4>🏷️ ${'Tag Operations'}</h4>
                             <button class="action-menu-close" onclick="gAItUI.closeAllMenus()">✕</button>
                         </div>
                         <div class="action-menu-body">
                             <button class="action-btn primary" onclick="gAItUI.showCreateTagDialog(); gAItUI.closeAllMenus();">
-                                ➕ ${this.t('git.create_tag')}
+                                ➕ ${'Create Tag'}
                             </button>
                             <button class="action-btn secondary" onclick="gAItUI.showTagListDialog(); gAItUI.closeAllMenus();">
-                                📋 ${this.t('git.manage_tags')}
+                                📋 ${'Manage Tags'}
                             </button>
                             <button class="action-btn secondary" onclick="gAItUI.performQuickOperation('pushTags'); gAItUI.closeAllMenus();">
-                                ⬆️ ${this.t('git.push_all_tags')}
+                                ⬆️ Push All Tags
                             </button>
                         </div>
                     </div>
@@ -3219,7 +3219,7 @@ class GaitUI {
         const existingMenu = document.querySelector('.action-menu');
         if (existingMenu) existingMenu.remove();
 
-        const newName = prompt(this.t('dialog.rename_branch', currentName), currentName);
+        const newName = prompt('Rename branch "{0}" to:'.replace(/\{0\}/g, currentName), currentName);
         if (newName && newName.trim() && newName.trim() !== currentName) {
             this.performBranchAction('rename', currentName, newName.trim());
         }
@@ -3229,9 +3229,9 @@ class GaitUI {
         const existingMenu = document.querySelector('.action-menu');
         if (existingMenu) existingMenu.remove();
 
-        const commitHash = prompt(this.t('dialog.reset_branch', branchName));
+        const commitHash = prompt('Reset branch "{0}" to commit hash:'.replace(/\{0\}/g, branchName));
         if (commitHash && commitHash.trim()) {
-            const resetType = confirm(this.t('dialog.reset_type_choice')) 
+            const resetType = confirm('Use hard reset? (No = soft reset)') 
                 ? 'mixed' 
                 : this.showResetTypeDialog();
             
@@ -3240,7 +3240,7 @@ class GaitUI {
     }
 
     showResetTypeDialog() {
-        const choice = prompt(this.t('dialog.reset_type_detailed'), '2');
+        const choice = prompt('Reset type: 1=soft, 2=mixed, 3=hard', '2');
         
         switch (choice) {
             case '1': return 'soft';
@@ -3253,9 +3253,9 @@ class GaitUI {
         const existingMenu = document.querySelector('.action-menu');
         if (existingMenu) existingMenu.remove();
 
-        const targetBranch = prompt(this.t('dialog.rebase_onto', currentBranch || 'current branch'));
+        const targetBranch = prompt('Rebase "{0}" onto which branch?'.replace(/\{0\}/g, currentBranch || 'current branch'));
         if (targetBranch && targetBranch.trim()) {
-            const interactive = confirm(this.t('dialog.rebase_interactive'));
+            const interactive = confirm('Use interactive rebase?');
             this.performRebaseOperation(targetBranch.trim(), interactive);
         }
     }
@@ -3276,9 +3276,9 @@ class GaitUI {
         const existingMenu = document.querySelector('.action-menu');
         if (existingMenu) existingMenu.remove();
 
-        const message = prompt(this.t('dialog.create_stash'));
+        const message = prompt('Stash message (optional):');
         if (message !== null) {
-            const includeUntracked = confirm(this.t('dialog.stash_include_untracked'));
+            const includeUntracked = confirm('Include untracked files?');
             this.performCreateStash(message.trim(), includeUntracked);
         }
     }
@@ -3299,12 +3299,12 @@ class GaitUI {
         const existingMenu = document.querySelector('.action-menu');
         if (existingMenu) existingMenu.remove();
 
-        const tagName = prompt(this.t('dialog.create_tag'));
+        const tagName = prompt('Tag name:');
         if (tagName && tagName.trim()) {
-            const annotated = confirm(this.t('dialog.tag_annotated'));
+            const annotated = confirm('Create annotated tag?');
             let message = '';
             if (annotated) {
-                message = prompt(this.t('dialog.tag_message')) || '';
+                message = prompt('Tag message:') || '';
             }
             this.performCreateTag(tagName.trim(), '', message, annotated);
         }
@@ -3333,9 +3333,9 @@ class GaitUI {
         }
 
         const remoteName = remotes.length === 1 ? remotes[0].name : 
-            prompt(this.t('dialog.pull_remote', remotes.map(r => r.name).join(', '))) || '';
+            prompt(`Pull from remote (${remotes.map(r => r.name).join(', ')}):`) || '';
         
-        const branchName = prompt(this.t('dialog.pull_branch')) || '';
+        const branchName = prompt('Pull branch:') || '';
         
         this.performPullOperation(remoteName, branchName);
     }
@@ -3363,10 +3363,10 @@ class GaitUI {
         }
 
         const remoteName = remotes.length === 1 ? remotes[0].name : 
-            prompt(this.t('dialog.push_remote', remotes.map(r => r.name).join(', '))) || '';
+            prompt(`Push to remote (${remotes.map(r => r.name).join(', ')}):`) || '';
         
-        const branchName = prompt(this.t('dialog.push_branch')) || '';
-        const force = confirm(this.t('dialog.push_force'));
+        const branchName = prompt('Push branch:') || '';
+        const force = confirm('Force push?');
         
         this.performPushOperation(remoteName, branchName, force);
     }
@@ -3384,23 +3384,23 @@ class GaitUI {
 
     // Placeholder methods for advanced dialogs
     showBranchListDialog() {
-        this.showStatus(this.t('advanced.coming_soon', 'Advanced branch management coming soon...'), 'info');
+        this.showStatus('Advanced branch management coming soon...', 'info');
     }
 
     showStashListDialog() {
-        this.showStatus(this.t('advanced.stash_management', 'Advanced stash management coming soon...'), 'info');
+        this.showStatus('Advanced stash management coming soon...', 'info');
     }
 
     showTagListDialog() {
-        this.showStatus(this.t('advanced.tag_management', 'Advanced tag management coming soon...'), 'info');
+        this.showStatus('Advanced tag management coming soon...', 'info');
     }
 
     showRemoteManagementDialog() {
-        this.showStatus(this.t('advanced.remote_management', 'Advanced remote management coming soon...'), 'info');
+        this.showStatus('Advanced remote management coming soon...', 'info');
     }
 
     showCreateBranchFromStashDialog() {
-        this.showStatus(this.t('advanced.branch_from_stash', 'Create branch from stash coming soon...'), 'info');
+        this.showStatus('Create branch from stash coming soon...', 'info');
     }
 
     // Commit-level operations
@@ -3408,7 +3408,7 @@ class GaitUI {
         try {
             switch (action) {
                 case 'cherry-pick':
-                    if (confirm(this.t('dialog.cherry_pick', commitHash.substring(0, 7)))) {
+                    if (confirm('Cherry-pick commit {0}?'.replace(/\{0\}/g, commitHash.substring(0, 7)))) {
                         this.showStatus(`Cherry-picking commit ${commitHash.substring(0, 7)}...`, 'info');
                         await gAItAPI.cherryPickCommit(commitHash);
                         this.showStatus('Commit cherry-picked successfully', 'success');
@@ -3417,7 +3417,7 @@ class GaitUI {
                     break;
 
                 case 'revert':
-                    const noCommit = confirm(this.t('dialog.revert_commit', commitHash.substring(0, 7)));
+                    const noCommit = confirm('Revert commit {0}?'.replace(/\{0\}/g, commitHash.substring(0, 7)));
                     this.showStatus(`Reverting commit ${commitHash.substring(0, 7)}...`, 'info');
                     await gAItAPI.revertCommit(commitHash, !noCommit);
                     this.showStatus(`Commit ${noCommit ? 'reverted' : 'revert staged'}`, 'success');
@@ -3426,7 +3426,7 @@ class GaitUI {
 
                 case 'reset':
                     const resetType = this.showResetTypeDialog();
-                    if (confirm(this.t('dialog.reset_to_commit', commitHash.substring(0, 7), resetType.toUpperCase()))) {
+                    if (confirm(`Reset to commit ${commitHash.substring(0, 7)} (${resetType.toUpperCase()})?`)) {
                         this.showStatus(`Resetting to commit ${commitHash.substring(0, 7)} (${resetType})...`, 'info');
                         await gAItAPI.resetBranch(commitHash, resetType);
                         this.showStatus(`Branch reset to ${commitHash.substring(0, 7)}`, 'success');
@@ -3435,19 +3435,19 @@ class GaitUI {
                     break;
 
                 case 'create-tag':
-                    const tagName = prompt(this.t('dialog.create_tag_at_commit', commitHash.substring(0, 7)));
+                    const tagName = prompt('Create tag at commit {0}:'.replace(/\{0\}/g, commitHash.substring(0, 7)));
                     if (tagName && tagName.trim()) {
-                        const annotated = confirm(this.t('dialog.tag_annotated'));
+                        const annotated = confirm('Create annotated tag?');
                         let message = '';
                         if (annotated) {
-                            message = prompt(this.t('dialog.tag_message')) || '';
+                            message = prompt('Tag message:') || '';
                         }
                         await this.performCreateTag(tagName.trim(), commitHash, message, annotated);
                     }
                     break;
 
                 case 'create-branch':
-                    const branchName = prompt(this.t('dialog.create_branch_from_commit', commitHash.substring(0, 7)));
+                    const branchName = prompt('Create branch from commit {0}:'.replace(/\{0\}/g, commitHash.substring(0, 7)));
                     if (branchName && branchName.trim()) {
                         this.showStatus(`Creating branch ${branchName} from commit ${commitHash.substring(0, 7)}...`, 'info');
                         await gAItAPI.createBranch(branchName.trim(), commitHash);
@@ -3538,7 +3538,7 @@ class GaitUI {
             this.showStatus('Uncommitted changes refreshed', 'success');
         } catch (error) {
             console.error('Failed to refresh uncommitted changes:', error);
-            this.showStatus(this.t('refresh.failed_refresh', 'Failed to refresh uncommitted changes'), 'error');
+            this.showStatus('Failed to refresh uncommitted changes', 'error');
         }
     }
 
@@ -3548,7 +3548,7 @@ class GaitUI {
         if (!diffContent) return;
         
         try {
-            diffContent.innerHTML = `<div class="loading">${this.t('file.loading_diff', 'Loading diff...')}</div>`;
+            diffContent.innerHTML = `<div class="loading">${'Loading diff...'}</div>`;
             const diff = await gAItAPI.getFileDiff('uncommitted', filePath);
             this.renderUncommittedFileDiff(diff, filePath, index);
         } catch (error) {
@@ -3560,36 +3560,36 @@ class GaitUI {
     // Staging and commit functions
     async stageFile(filePath) {
         try {
-            this.showStatus(`${this.t('status.staging_file', 'Staging')} ${filePath}...`, 'info');
+            this.showStatus(`${'Staging'} ${filePath}...`, 'info');
             await gAItAPI.stageFile(filePath);
-            this.showStatus(`${filePath} ${this.t('status.file_staged', 'staged')}`, 'success');
+            this.showStatus(`${filePath} ${'staged'}`, 'success');
             await this.refreshUncommittedChanges();
         } catch (error) {
             console.error('Failed to stage file:', error);
-            this.showStatus(`${this.t('status.failed_stage_file', 'Failed to stage file')}: ${error.message}`, 'error');
+            this.showStatus(`${'Failed to stage file'}: ${error.message}`, 'error');
         }
     }
 
     async unstageFile(filePath) {
         try {
-            this.showStatus(`${this.t('status.unstaging_file', 'Unstaging')} ${filePath}...`, 'info');
+            this.showStatus(`${'Unstaging'} ${filePath}...`, 'info');
             await gAItAPI.unstageFile(filePath);
-            this.showStatus(`${filePath} ${this.t('status.file_unstaged', 'unstaged')}`, 'success');
+            this.showStatus(`${filePath} ${'unstaged'}`, 'success');
             await this.refreshUncommittedChanges();
         } catch (error) {
             console.error('Failed to unstage file:', error);
-            this.showStatus(`${this.t('status.failed_unstage_file', 'Failed to unstage file')}: ${error.message}`, 'error');
+            this.showStatus(`${'Failed to unstage file'}: ${error.message}`, 'error');
         }
     }
 
     async discardFileChanges(filePath) {
         try {
             const confirmDiscard = await showWarningDialog({
-                title: this.t('dialog.discard_changes_title'),
-                message: this.t('dialog.discard_file_changes', filePath),
-                details: this.t('dialog.discard_changes_warning'),
-                confirmText: this.t('actions.discard'),
-                cancelText: this.t('actions.cancel')
+                title: 'Discard Changes',
+                message: 'Discard all changes to "{0}"?'.replace(/\{0\}/g, filePath),
+                details: 'This action cannot be undone.',
+                confirmText: 'Discard',
+                cancelText: 'Cancel'
             });
             
             if (confirmDiscard) {
@@ -3613,12 +3613,12 @@ class GaitUI {
         );
         
         if (unstagedChanges.length === 0) {
-            this.showStatus(this.t('status.no_unstaged_changes', 'No unstaged changes to stage'), 'info');
+            this.showStatus('No unstaged changes to stage', 'info');
             return;
         }
 
         try {
-            this.showStatus(`${this.t('status.staging_files', 'Staging files...')} (${unstagedChanges.length})`, 'info');
+            this.showStatus(`${'Staging files...'} (${unstagedChanges.length})`, 'info');
             
             // Stage files sequentially to avoid git conflicts
             for (const change of unstagedChanges) {
@@ -3626,16 +3626,16 @@ class GaitUI {
                     await gAItAPI.stageFile(change.path);
                 } catch (error) {
                     console.error(`Failed to stage file ${change.path}:`, error);
-                    this.showStatus(`${this.t('status.failed_stage_file', 'Failed to stage file')} ${change.path}: ${error.message}`, 'error');
+                    this.showStatus(`${'Failed to stage file'} ${change.path}: ${error.message}`, 'error');
                     return; // Stop on first error
                 }
             }
             
-            this.showStatus(`${unstagedChanges.length} ${this.t('status.staged_files', 'files staged')}`, 'success');
+            this.showStatus(`${unstagedChanges.length} ${'files staged'}`, 'success');
             await this.refreshUncommittedChanges();
         } catch (error) {
             console.error('Failed to stage all changes:', error);
-            this.showStatus(`${this.t('status.failed_stage_file', 'Failed to stage file')}: ${error.message}`, 'error');
+            this.showStatus(`${'Failed to stage file'}: ${error.message}`, 'error');
         }
     }
 
@@ -3646,12 +3646,12 @@ class GaitUI {
         );
         
         if (stagedChanges.length === 0) {
-            this.showStatus(this.t('status.no_staged_changes', 'No staged changes to unstage'), 'info');
+            this.showStatus('No staged changes to unstage', 'info');
             return;
         }
 
         try {
-            this.showStatus(`${this.t('status.unstaging_files', 'Unstaging files...')} (${stagedChanges.length})`, 'info');
+            this.showStatus(`${'Unstaging files...'} (${stagedChanges.length})`, 'info');
             
             // Unstage files sequentially to avoid git conflicts
             for (const change of stagedChanges) {
@@ -3659,23 +3659,23 @@ class GaitUI {
                     await gAItAPI.unstageFile(change.path);
                 } catch (error) {
                     console.error(`Failed to unstage file ${change.path}:`, error);
-                    this.showStatus(`${this.t('status.failed_unstage_file', 'Failed to unstage file')} ${change.path}: ${error.message}`, 'error');
+                    this.showStatus(`${'Failed to unstage file'} ${change.path}: ${error.message}`, 'error');
                     return; // Stop on first error
                 }
             }
             
-            this.showStatus(`${stagedChanges.length} ${this.t('status.unstaged_files', 'files unstaged')}`, 'success');
+            this.showStatus(`${stagedChanges.length} ${'files unstaged'}`, 'success');
             await this.refreshUncommittedChanges();
         } catch (error) {
             console.error('Failed to unstage all changes:', error);
-            this.showStatus(`${this.t('status.failed_unstage_file', 'Failed to unstage file')}: ${error.message}`, 'error');
+            this.showStatus(`${'Failed to unstage file'}: ${error.message}`, 'error');
         }
     }
 
     async showCommitDialog() {
         try {
             const result = await showCommitDialog({
-                title: this.t('dialog.commit_title'),
+                title: 'Create Commit',
                 message: '',
                 amend: false,
                 signoff: false

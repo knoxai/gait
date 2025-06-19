@@ -422,9 +422,15 @@ function restoreSidebarCollapseState() {
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize UI components
-    gAItUI.loadData();
-    gAItUI.initializeScrollListener();
+    // Wait for gAItUI to be available
+    if (typeof gAItUI !== 'undefined') {
+        // Initialize UI components
+        gAItUI.loadData();
+        gAItUI.initializeScrollListener();
+    } else {
+        console.error('gAItUI is not defined. Make sure ui.js is loaded before main.js');
+    }
+    
     initializeResizablePanels();
     initializeSidebarResize();
     restoreSidebarState();

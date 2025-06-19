@@ -390,30 +390,30 @@ const optimizedTemplate = `<!DOCTYPE html>
     <template id="commitDialogTemplate">
         <div class="commit-dialog">
             <div class="form-group">
-                <label for="commitMessage" class="form-label">dialog.commit_message</label>
+                <label for="commitMessage" class="form-label">Commit Message</label>
                 <textarea 
                     id="commitMessage" 
                     class="form-textarea" 
-                    placeholder="dialog.commit_message_placeholder"
+                    placeholder="Enter your commit message here..."
                     rows="4"
                     maxlength="500"
                     autofocus
                 ></textarea>
                 <div class="form-help">
                     <span class="char-counter">0 / 500</span>
-                    <span class="form-tip">dialog.commit_message_tip</span>
+                    <span class="form-tip">Describe what changes you made and why</span>
                 </div>
             </div>
             <div class="commit-options">
                 <label class="checkbox-label">
                     <input type="checkbox" id="amendCommit" class="form-checkbox">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">dialog.amend_commit</span>
+                    <span class="checkbox-text">Amend previous commit</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" id="signoffCommit" class="form-checkbox">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">dialog.signoff_commit</span>
+                    <span class="checkbox-text">Add Signed-off-by line</span>
                 </label>
             </div>
         </div>
