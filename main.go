@@ -80,9 +80,18 @@ func main() {
 			// Don't create any git service - let the frontend handle the empty state
 			gitService = nil
 		} else {
-			// Default to first repository
-			gitService = git.NewService(repositories[0].Path)
-			log.Printf("Found %d managed repositories, defaulting to: %s", len(repositories), repositories[0].Name)
+			// Default to first repository and set it as current in the manager
+			firstRepoPath := repositories[0].Path
+			var err error
+			gitService, err = repoManager.SwitchRepository(firstRepoPath)
+			if err != nil {
+				log.Printf("Warning: Failed to set default repository: %v", err)
+				gitService = nil
+			} else {
+				// Update repositories list to get the current marking
+				repositories = repoManager.GetRepositories()
+				log.Printf("Found %d managed repositories, defaulting to: %s", len(repositories), repositories[0].Name)
+			}
 		}
 	}
 
@@ -227,6 +236,12 @@ func main() {
 		gitService = nil
 		apiHandler.SetGitService(nil)
 		webServer.UpdateRepoName("No Repository Selected")
+		
+		// Clear current repository in manager
+		repoManager.ClearCurrentRepository()
+		
+		// Update repositories list
+		repositories = repoManager.GetRepositories()
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(map[string]string{"status": "success"})

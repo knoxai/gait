@@ -17,6 +17,7 @@ import (
 type RepositoryManager struct {
 	repositories    []types.Repository
 	currentRepo     *git.Service
+	currentRepoPath string
 	configPath      string
 	workspacePath   string
 }
@@ -52,7 +53,23 @@ func (rm *RepositoryManager) SaveRepositories() error {
 		return err
 	}
 
-	data, err := json.MarshalIndent(rm.repositories, "", "  ")
+	// Create a copy of repositories without the Current field for saving
+	reposToSave := make([]struct {
+		Name string `json:"name"`
+		Path string `json:"path"`
+	}, len(rm.repositories))
+	
+	for i, repo := range rm.repositories {
+		reposToSave[i] = struct {
+			Name string `json:"name"`
+			Path string `json:"path"`
+		}{
+			Name: repo.Name,
+			Path: repo.Path,
+		}
+	}
+
+	data, err := json.MarshalIndent(reposToSave, "", "  ")
 	if err != nil {
 		return err
 	}
@@ -126,7 +143,12 @@ func (rm *RepositoryManager) RemoveRepository(path string) error {
 
 // GetRepositories returns all managed repositories
 func (rm *RepositoryManager) GetRepositories() []types.Repository {
-	return rm.repositories
+	repos := make([]types.Repository, len(rm.repositories))
+	for i, repo := range rm.repositories {
+		repos[i] = repo
+		repos[i].Current = (repo.Path == rm.currentRepoPath)
+	}
+	return repos
 }
 
 // SwitchRepository switches to a different repository
@@ -150,7 +172,14 @@ func (rm *RepositoryManager) SwitchRepository(path string) (*git.Service, error)
 	}
 
 	rm.currentRepo = git.NewService(path)
+	rm.currentRepoPath = path
 	return rm.currentRepo, nil
+}
+
+// ClearCurrentRepository clears the current repository selection
+func (rm *RepositoryManager) ClearCurrentRepository() {
+	rm.currentRepo = nil
+	rm.currentRepoPath = ""
 }
 
 // DiscoverRepositories discovers repositories in the workspace
@@ -183,7 +212,7 @@ func (rm *RepositoryManager) DiscoverRepositories(maxDepth int) error {
 // HandleGetRepositories handles GET /api/repositories
 func (rm *RepositoryManager) HandleGetRepositories(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(rm.repositories)
+	json.NewEncoder(w).Encode(rm.GetRepositories())
 }
 
 // HandleAddRepository handles POST /api/repositories/add

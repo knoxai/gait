@@ -184,7 +184,7 @@ export interface GitSettings {
   defaultBranch: string;
   autoFetch: boolean;
   signCommits: boolean;
-  theme: 'light' | 'dark' | 'system';
+  theme: 'light' | 'dark';
   language: 'en' | 'zh';
 }
 

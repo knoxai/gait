@@ -32,8 +32,25 @@ export function useGitData() {
   // Load initial data
   useEffect(() => {
     loadRepositories();
-    loadGitData();
   }, []);
+
+  // Load git data only when we have a current repository
+  useEffect(() => {
+    if (currentRepository) {
+      loadGitData();
+    } else {
+      // Clear all git data when no repository is selected
+      setCommits([]);
+      setBranches([]);
+      setTags([]);
+      setStashes([]);
+      setRemotes([]);
+      setUncommittedChanges([]);
+      setSelectedCommit(null);
+      setSearchQuery('');
+      setSearchResults(null);
+    }
+  }, [currentRepository]);
 
   const loadRepositories = async () => {
     try {
@@ -49,8 +66,14 @@ export function useGitData() {
   const loadGitData = async () => {
     setIsLoading(true);
     try {
+      // Reset UI state when loading new repository data
+      setOffset(0);
+      setSelectedCommit(null);
+      setExpandedCommits([]);
+      setExpandedFiles([]);
+      
       await Promise.all([
-        loadCommits(),
+        loadCommits(true), // Reset commits for new repository
         loadBranches(),
         loadTags(),
         loadStashes(),
@@ -290,9 +313,22 @@ export function useGitData() {
   const switchRepository = async (path: string) => {
     await api.switchRepository(path);
     
+    // Clear search state when switching repositories
+    setSearchQuery('');
+    setSearchResults(null);
+    
+    // Update repositories array to mark the new current repository
+    setRepositories(prev => prev.map(repo => ({
+      ...repo,
+      current: repo.path === path
+    })));
+    
     // Update current repository
     const newCurrentRepo = repositories.find(repo => repo.path === path);
-    setCurrentRepository(newCurrentRepo || null);
+    setCurrentRepository(newCurrentRepo ? { ...newCurrentRepo, current: true } : null);
+    
+    // Reload repositories to get updated state from backend
+    await loadRepositories();
     
     // Reload all git data for the new repository
     await loadGitData();

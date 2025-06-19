@@ -14,6 +14,7 @@
   --color-yellow: #ffc700;
   --color-cyan: #0dcaf0;
   --color-lightgray: #6e6e77;
+  --color-darkhover: #172332;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

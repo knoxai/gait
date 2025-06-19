@@ -4,8 +4,9 @@ import "time"
 
 // Repository represents a Git repository
 type Repository struct {
-	Name string `json:"name"`
-	Path string `json:"path"`
+	Name    string `json:"name"`
+	Path    string `json:"path"`
+	Current bool   `json:"current"`
 }
 
 // Author represents a commit author
